@@ -30,7 +30,7 @@ const Navbar = () => {
           </div>
 
           <div className="hidden lg:block">
-            <div className="ml-10 flex items-center space-x-4">
+            <div className="ml-10 flex items-center ">
               {navItems.map((item) =>
                 item.to ? (
                   <Link
