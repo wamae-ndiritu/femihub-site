@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Custom styles */
+.backdrop-blur-lg {
+  backdrop-filter: blur(20px);
+}
+
+.backdrop-brightness-90 {
+  backdrop-filter: brightness(90%);
+}
+
+.transition-shadow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover\:shadow-lg:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.transition-colors {
+  transition: background-color 0.3s ease;
+}
