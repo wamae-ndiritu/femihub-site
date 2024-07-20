@@ -1,24 +1,35 @@
-// Navbar.js
 import React, { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaChevronDown } from 'react-icons/fa';
 import { CiHeart, CiShoppingCart } from 'react-icons/ci';
-import { Link } from 'react-scroll';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
 
   const navItems = [
-    { name: 'Home', href: '/',  },
-    // { name: 'Shop By Brand', to: 'productselector', offset: -70 },
-    { name: 'Shop By Category', to: 'productselector', offset: -70 },
-    { name: 'Maternal Wellness', to: 'productselector', offset: -70 },
-    { name: 'Contraceptives', to: 'productselector', offset: -70 },
-    { name: 'Blog', href: '#' }, // Assuming Blog is an external link
-    { name: 'PrEP', to: 'productselector', offset: -70 },
-    { name: 'PEP', to: 'productselector', offset: -70 },
-    { name: 'Consult with doctor', href: '/doctor' },
-    { name: 'Become a doctor', href: '/doctorverify' },
+    { name: 'Home', href: '/' },
+    { name: 'Shop', href: '/shop' },
+    { 
+      name: 'Maternal Wellness', 
+      submenu: [
+        { name: 'Antenatal', href: '/antenatal' },
+        { name: 'Postnatal', href: '/postnatal' },
+        { name: 'Consult with Doctor', href: '/doctor' }
+      ]
+    },
+    { 
+      name: 'HIV Services', 
+      submenu: [
+        { name: 'PrEP', href: '/prep' },
+        { name: 'PEP', href: '/pep' }
+      ]
+    },
+    { name: 'Doctor Registration', href: '/doctorverify' },
   ];
+
+  const toggleSubmenu = (index) => {
+    setActiveSubmenu(activeSubmenu === index ? null : index);
+  };
 
   return (
     <nav className="mt-2 px-4 lg:px-[100px]">
@@ -26,38 +37,53 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <img className="h-8 w-auto" src="/images/femihublogo.png" alt="FemiHub Logo" />
-            <span className="ml-2 text-xl font-bold text-gray-800">My<span className='text-[#E4258F]'>FemiHub</span></span>
+            <span className="ml-2 text-xl font-bold text-gray-800">My<span className="text-[#E4258F]">FemiHub</span></span>
           </div>
 
           <div className="hidden lg:block">
-            <div className="ml-10 flex items-center ">
-              {navItems.map((item) =>
-                item.to ? (
-                  <Link
-                    key={item.name}
-                    to={item.to}
-                    smooth={true}
-                    duration={500}
-                    offset={item.offset}
-                    className="nav-item text-[#184363] hover:text-gray-900 px-3 py-2 rounded-md text-sm font-bold cursor-pointer"
-                  >
-                    {item.name}
-                  </Link>
-                ) : (
-                  <a key={item.name} href={item.href} className="nav-item text-[#184363] hover:text-gray-900 px-3 py-2 rounded-md text-sm font-bold">
-                    {item.name}
-                  </a>
-                )
-              )}
+            <div className="ml-10 flex items-center">
+              {navItems.map((item, index) => (
+                <div key={item.name} className="relative group">
+                  {item.submenu ? (
+                    <>
+                      <button 
+                        onClick={() => toggleSubmenu(index)}
+                        className="nav-item text-[#184363] hover:text-gray-900 px-3 py-2 rounded-md text-sm font-bold flex items-center cursor-pointer"
+                      >
+                        {item.name}
+                        <FaChevronDown className="ml-1 text-[#E4258F] group-hover:text-gray-900 transition duration-300" />
+                      </button>
+                      <div className={`absolute z-10 left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 transition-all duration-300 ${activeSubmenu === index ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+                        <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                          {item.submenu.map((subItem) => (
+                            <a
+                              key={subItem.name}
+                              href={subItem.href}
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                              role="menuitem"
+                            >
+                              {subItem.name}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <a href={item.href} className="nav-item text-[#184363] hover:text-gray-900 px-3 py-2 rounded-md text-sm font-bold">
+                      {item.name}
+                    </a>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 
           <div className="hidden lg:flex items-center">
             <button className="p-1 rounded-full text-[#184363] hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E4258F] focus:ring-white">
-              <CiHeart className="h-6 w-6" color='#E4258F' />
+              <CiHeart className="h-6 w-6" color="#E4258F" />
             </button>
-            <button className="ml-3 p-1 rounded-full text-[#184363] hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E4258F] focus:ring-white" >
-              <CiShoppingCart className="h-6 w-6" color='#E4258F'  />
+            <button className="ml-3 p-1 rounded-full text-[#184363] hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E4258F] focus:ring-white">
+              <CiShoppingCart className="h-6 w-6" color="#E4258F" />
             </button>
           </div>
 
@@ -76,39 +102,56 @@ const Navbar = () => {
       {isOpen && (
         <div className="lg:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navItems.map((item) =>
-              item.to ? (
-                <Link
-                  key={item.name}
-                  to={item.to}
-                  smooth={true}
-                  duration={500}
-                  offset={item.offset}
-                  className="nav-item text-[#184363] hover:text-gray-900 block px-3 py-2 rounded-md text-base font-bold cursor-pointer"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ) : (
-                <a key={item.name} href={item.href} className="nav-item text-[#184363] hover:text-gray-900 block px-3 py-2 rounded-md text-base font-bold">
-                  {item.name}
-                </a>
-              )
-            )}
+            {navItems.map((item, index) => (
+              <div key={item.name}>
+                {item.submenu ? (
+                  <>
+                    <button 
+                      onClick={() => toggleSubmenu(index)}
+                      className="w-full text-left nav-item text-[#184363] hover:text-gray-900 block px-3 py-2 rounded-md text-base font-bold flex items-center"
+                    >
+                      {item.name}
+                      <FaChevronDown className="ml-1 text-[#E4258F] group-hover:text-gray-900 transition duration-300" />
+                    </button>
+                    <div className={`pl-4 transition-all duration-300 ${activeSubmenu === index ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
+                      {item.submenu.map((subItem) => (
+                        <a
+                          key={subItem.name}
+                          href={subItem.href}
+                          className="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {subItem.name}
+                        </a>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <a
+                    href={item.href}
+                    className="nav-item text-[#184363] hover:text-gray-900 block px-3 py-2 rounded-md text-base font-bold"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </a>
+                )}
+              </div>
+            ))}
           </div>
           <div className="pt-4 pb-3 border-t border-gray-700">
             <div className="flex items-center px-5">
               <button className="p-1 rounded-full text-[#184363] hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E4258F] focus:ring-white">
-                <CiHeart className="h-6 w-6" color='#E4258F'/>
+                <CiHeart className="h-6 w-6" color="#E4258F"/>
               </button>
               <button className="ml-3 p-1 rounded-full text-[#184363] hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E4258F] focus:ring-white">
-                <CiShoppingCart className="h-6 w-6" color='#E4258F'/>
+                <CiShoppingCart className="h-6 w-6" color="#E4258F"/>
               </button>
             </div>
           </div>
         </div>
       )}
-      <style jsx>{`
+      <style>
+        {`
         .nav-item {
           position: relative;
           overflow: hidden;
@@ -118,18 +161,21 @@ const Navbar = () => {
           content: '';
           position: absolute;
           bottom: 0;
-          right: 0;
+          left: 0;
           width: 100%;
           height: 2px;
           background-color: #E4258F;
-          transform: translateX(100%);
+          transform: scaleX(0);
+          transform-origin: bottom right;
           transition: transform 0.3s ease;
         }
 
         .nav-item:hover::before {
-          transform: translateX(0);
+          transform: scaleX(1);
+          transform-origin: bottom left;
         }
-      `}</style>
+        `}
+      </style>
     </nav>
   );
 };

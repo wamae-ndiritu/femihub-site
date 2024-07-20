@@ -5,7 +5,7 @@ import { MdOutlineAccountCircle } from "react-icons/md";
 import avatar from "../../public/images/logo.png"
 import { FaDollarSign } from "react-icons/fa6";
 import downarrow from "../../public/images/downarrow.png"
-
+import { TbCurrencyCent } from "react-icons/tb";
 const TopNav = () => {
   return (
 
@@ -25,7 +25,7 @@ const TopNav = () => {
           <p className='text-[#56778F] font-semibold text-sm'>My Account</p>
         </div>
         <div className='flex flex-row items-center '>
-          <FaDollarSign className='h-4 w-4 ' color='#E4258F' />
+          <TbCurrencyCent className='h-4 w-4 ' color='#E4258F' />
           <p className='text-[#56778F] font-semibold text-sm flex flex-row items-center'>ugshs <span><img src={downarrow} alt="" className='ml-2' /></span></p></div>
       </div>
 
