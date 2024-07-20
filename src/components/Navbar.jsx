@@ -9,9 +9,13 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'Home', href: '/',  },
-    { name: 'Shop By Brand', to: 'productselector', offset: -70 },
+    // { name: 'Shop By Brand', to: 'productselector', offset: -70 },
     { name: 'Shop By Category', to: 'productselector', offset: -70 },
+    { name: 'Maternal Wellness', to: 'productselector', offset: -70 },
+    { name: 'Contraceptives', to: 'productselector', offset: -70 },
     { name: 'Blog', href: '#' }, // Assuming Blog is an external link
+    { name: 'PrEP', to: 'productselector', offset: -70 },
+    { name: 'PEP', to: 'productselector', offset: -70 },
     { name: 'Consult with doctor', href: '/doctor' },
     { name: 'Become a doctor', href: '/doctorverify' },
   ];
