@@ -1,0 +1,560 @@
+Here's a detailed documentation for each endpoint, including the URL, sample request body, and expected response:
+
+### 1. **User Registration**
+- **URL**: `/register`
+- **Method**: POST
+- **Request Body**:
+  ```json
+  {
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "phone_number": "+1234567890",
+      "password": "password123"
+  }
+  ```
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "User registered successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 2. **User Login**
+- **URL**: `/login`
+- **Method**: POST
+- **Request Body**:
+  ```json
+  {
+      "email": "john.doe@example.com",
+      "password": "password123"
+  }
+  ```
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "token": "jwt_token_here"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 3. **Google Authentication**
+- **URL**: `/auth/google`
+- **Method**: GET
+- **Response**:
+  - **Success**: user authenticated
+  - **Failure**: returns an error message
+
+### 4. **Google Authentication Callback**
+- **URL**: `/auth/google/callback`
+- **Method**: GET
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "User authenticated"
+    }
+    ```
+  - **Failure**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 5. **Apple Authentication**
+- **URL**: `/auth/apple`
+- **Method**: POST
+- **Request Body**:
+  ```json
+  {
+      "id_token": "apple_id_token_here"
+  }
+  ```
+- **Response**:
+  - **Success**: Redirects or returns a success message
+  - **Failure**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 6. **Doctor Registration (CRUD)**
+- **URL**: `/doctors`
+- **Method**: POST
+- **Request Body**:
+  ```json
+  {
+      "name": "Dr. Alice Smith",
+      "specialty": "Obstetrics",
+      "email": "alice.smith@example.com",
+      "phone_number": "+0987654321"
+  }
+  ```
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "Doctor registered successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 7. **Get Doctors**
+- **URL**: `/doctors`
+- **Method**: GET
+- **Response**:
+  - **Success**:
+    ```json
+    [
+        {
+            "id": 1,
+            "name": "Dr. Alice Smith",
+            "specialty": "Obstetrics",
+            "email": "alice.smith@example.com",
+            "phone_number": "+0987654321"
+        }
+    ]
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 8. **Update Doctor**
+- **URL**: `/doctors/:id`
+- **Method**: PUT
+- **Request Body**:
+  ```json
+  {
+      "name": "Dr. Alice Johnson",
+      "specialty": "Gynecology",
+      "email": "alice.johnson@example.com",
+      "phone_number": "+0987654321"
+  }
+  ```
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "Doctor updated successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 9. **Delete Doctor**
+- **URL**: `/doctors/:id`
+- **Method**: DELETE
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "Doctor deleted successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 10. **Community Forum - Get Posts**
+- **URL**: `/forum_posts`
+- **Method**: GET
+- **Response**:
+  - **Success**:
+    ```json
+    [
+        {
+            "id": 1,
+            "user_id": 1,
+            "title": "Pregnancy Tips",
+            "content": "Some useful tips for pregnancy..."
+        }
+    ]
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 11. **Community Forum - Create Post**
+- **URL**: `/forum_posts`
+- **Method**: POST
+- **Request Body**:
+  ```json
+  {
+      "user_id": 1,
+      "title": "Pregnancy Tips",
+      "content": "Some useful tips for pregnancy..."
+  }
+  ```
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "Post created successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 12. **Articles - Create Article**
+- **URL**: `/articles`
+- **Method**: POST
+- **Request Body**:
+  ```json
+  {
+      "title": "Pregnancy Nutrition",
+      "content": "Information about nutrition during pregnancy...",
+      "author_id": 1
+  }
+  ```
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "Article created successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 13. **Articles - Get Articles**
+- **URL**: `/articles`
+- **Method**: GET
+- **Response**:
+  - **Success**:
+    ```json
+    [
+        {
+            "id": 1,
+            "title": "Pregnancy Nutrition",
+            "content": "Information about nutrition during pregnancy...",
+            "author_id": 1
+        }
+    ]
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 14. **Articles - Update Article**
+- **URL**: `/articles/:id`
+- **Method**: PUT
+- **Request Body**:
+  ```json
+  {
+      "title": "Updated Title",
+      "content": "Updated content here..."
+  }
+  ```
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "Article updated successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 15. **Articles - Delete Article**
+- **URL**: `/articles/:id`
+- **Method**: DELETE
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "Article deleted successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 16. **Products - Create Product**
+- **URL**: `/products`
+- **Method**: POST
+- **Request Body**:
+  ```json
+  {
+      "name": "Pregnancy Supplement",
+      "description": "A supplement for pregnant women",
+      "price": 29.99
+  }
+  ```
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "Product created successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 17. **Products - Get Products**
+- **URL**: `/products`
+- **Method**: GET
+- **Response**:
+  - **Success**:
+    ```json
+    [
+        {
+            "id": 1,
+            "name": "Pregnancy Supplement",
+            "description": "A supplement for pregnant women",
+            "price": 29.99
+        }
+    ]
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 18. **Products - Update Product**
+- **URL**: `/products/:id`
+- **Method**: PUT
+- **Request Body**:
+  ```json
+  {
+      "name": "Updated Product",
+      "description": "Updated description",
+      "price": 35.99
+  }
+  ```
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "Product updated successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 19. **Products - Delete Product**
+- **URL**: `/products/:id`
+- **Method**: DELETE
+- **Response
+
+**:
+  - **Success**:
+    ```json
+    {
+        "message": "Product deleted successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 20. **Add to Cart**
+- **URL**: `/cart`
+- **Method**: POST
+- **Request Body**:
+  ```json
+  {
+      "user_id": 1,
+      "product_id": 2,
+      "quantity": 1
+  }
+  ```
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "Product added to cart successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 21. **Get Cart Items**
+- **URL**: `/cart/:user_id`
+- **Method**: GET
+- **Response**:
+  - **Success**:
+    ```json
+    [
+        {
+            "user_id": 1,
+            "product_id": 2,
+            "quantity": 1
+        }
+    ]
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 22. **Remove from Cart**
+- **URL**: `/cart/:user_id/:product_id`
+- **Method**: DELETE
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "Product removed from cart successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 23. **Logout**
+- **URL**: `/logout`
+- **Method**: POST
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "User logged out successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 24. **Chat - Send Message**
+- **URL**: `/chats`
+- **Method**: POST
+- **Request Body**:
+  ```json
+  {
+      "sender_id": 1,
+      "receiver_id": 2,
+      "message": "Hello!"
+  }
+  ```
+- **Response**:
+  - **Success**:
+    ```json
+    {
+        "message": "Message sent successfully"
+    }
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 25. **Chat - Get Messages**
+- **URL**: `/chats/:user_id`
+- **Method**: GET
+- **Response**:
+  - **Success**:
+    ```json
+    [
+        {
+            "sender_id": 1,
+            "receiver_id": 2,
+            "message": "Hello!",
+            "timestamp": "2024-07-23T10:00:00Z"
+        }
+    ]
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+### 26. **Recommendations**
+- **URL**: `/recommendations`
+- **Method**: GET
+- **Response**:
+  - **Success**:
+    ```json
+    [
+        {
+            "product_id": 1,
+            "reason": "Recommended for your pregnancy stage"
+        }
+    ]
+    ```
+  - **Error**:
+    ```json
+    {
+        "error": "Error message"
+    }
+    ```
+
+This documentation should help you implement and test endpoints effectively.

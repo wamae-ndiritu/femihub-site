@@ -52,7 +52,7 @@ const ProductSelector = () => {
   ];
 
   return (
-    <div className="mt-4">
+    <div className="mt-4" id='productselector'>
       <div className="flex flex-col lg:flex-row items-center space-y-4 lg:space-y-0 lg:space-x-4 mb-8">
         <span className="font-semibold text-[#E4258F] whitespace-nowrap">Select a product</span>
         <div className="flex-grow flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full">
