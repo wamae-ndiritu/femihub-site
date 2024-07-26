@@ -481,7 +481,7 @@ app.get('/v1/payments/payment', async (req, res) => {
 });
 // Reminder endpoints (to be added later)
 
-const PORT = 3030;
+const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
