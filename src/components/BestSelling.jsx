@@ -1,11 +1,8 @@
-import React from 'react';
-import item from "../assets/item.png";
-import item1 from "../assets/item1.png";
-import item2 from "../assets/item2.png";
-import item3 from "../assets/item3.png";
-import item4 from "../assets/item4.png";
-
-const Product = ({ image, category, name, price, salePrice }) => (
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { BASEHOST } from "../use";
+import { addTocart } from "./add";
+const Product = ({ id, image, category, name, price, salePrice = 0, description }) => (
   <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:translate-y-[-5px] flex flex-col h-full">
     <div className="relative h-48">
       <img src={image} alt={name} className="w-full h-full object-contain" />
@@ -29,28 +26,88 @@ const Product = ({ image, category, name, price, salePrice }) => (
         )}
       </div>
     </div>
-    <button className="w-1/2 self-center my-2 rounded-full bg-custom-pink text-white py-2 hover:bg-pink-700 transition-colors mt-auto">
+    <button
+      onClick={() => addTocart({ id, name, image, description, price })}
+      className="w-1/2 self-center my-2 rounded-full bg-custom-pink text-white py-2 hover:bg-pink-700 transition-colors mt-auto"
+    >
       Add to cart
     </button>
   </div>
 );
 
 const BestSellingProducts = () => {
-  const products = [
-    { image: item, category: 'Protein', name: 'Nutren Diabetes Vanilla', price: 14.50 },
-    { image: item1, category: 'Herbs', name: 'Henry Blooms One Night', price: 44.00, salePrice: 39.00 },
-    { image: item2, category: 'Pets', name: 'Spring Leaf Kids Fish Oil 750mg', price: 24.95 },
-    { image: item3, category: 'Pets', name: 'Nordic Naturals Arctic-D Cod', price: 42.95, salePrice: 37.45 },
-    { image: item4, category: 'Beauty', name: 'Nair Precision Facial Hair', price: 5.50, salePrice: 4.40 },
-  ];
+  const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  useEffect(() => {
+    axios
+      .get(`${BASEHOST}/products`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+  const currentProducts = products.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="py-8">
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Best Selling Products</h2>
+      <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+        Best Selling Products
+      </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        {products.map((product, index) => (
+        {currentProducts.map((product, index) => (
           <Product key={index} {...product} />
         ))}
+      </div>
+      <div className="flex justify-center mt-8">
+        <button
+          className={`mx-1 px-3 py-2 rounded-md ${
+            currentPage === 1 ? "bg-gray-300" : "bg-custom-pink text-white"
+          }`}
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          <button
+            key={page}
+            className={`mx-1 px-3 py-2 rounded-md ${
+              currentPage === page ? "bg-custom-pink text-white" : "bg-gray-300"
+            }`}
+            onClick={() => handlePageChange(page)}
+          >
+            {page}
+          </button>
+        ))}
+        <button
+          className={`mx-1 px-3 py-2 rounded-md ${
+            currentPage === totalPages
+              ? "bg-gray-300"
+              : "bg-custom-pink text-white"
+          }`}
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

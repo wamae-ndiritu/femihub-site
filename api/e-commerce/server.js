@@ -33,7 +33,7 @@ app.use(session({
 
 app.use(
 	cors({
-		origin: "http://localhost:3000", // Replace with your frontend URL
+		origin: "http://localhost:5173", // Replace with your frontend URL
 		methods: "GET,POST,PUT,DELETE",
 		credentials: true,
 	})
@@ -67,8 +67,8 @@ passport.deserializeUser((user, done) => {
 // MySQL connection
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: '', // Replace with your MySQL password
+    user: 'newuser',
+    password: 'password', // Replace with your MySQL password
     database: 'femihub'
 });
 
@@ -157,6 +157,7 @@ app.post('/login', (req, res) => {
 
 // Doctor registration (CRUD)
 app.post('/doctors', (req, res) => {
+    console.log('Endpoint hit');
     const { name, specialty, email, phone_number } = req.body;
     const query = 'INSERT INTO doctors (name, specialty, email, phone_number) VALUES (?, ?, ?, ?)';
     db.query(query, [name, specialty, email, phone_number], (err, result) => {

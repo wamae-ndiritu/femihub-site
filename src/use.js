@@ -1,0 +1,1 @@
+export const BASEHOST = "http://localhost:3030";

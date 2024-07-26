@@ -1,4 +1,4 @@
-CREATE DATABASE femihub;
+CREATE DATABASE IF NOT EXISTS femihub;
 
 USE femihub;
 
@@ -52,6 +52,7 @@ CREATE TABLE products (
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DECIMAL(10, 2),
+    image VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
+import axios from 'axios';
+import { BASEHOST } from '../use';
 const DoctorForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [error, setError] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -32,18 +34,37 @@ const DoctorForm = () => {
       agreement: Yup.boolean().oneOf([true], 'You must accept the terms and conditions'),
     }),
     onSubmit: async (values) => {
+        console.log('Clicked');
       setIsSubmitting(true);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log(values);
-      setIsSubmitting(false);
-      setSubmitSuccess(true);
+      setError(null);
+      const data = {
+        name: values.fullName,
+        specialty: values.specialization,
+        email: values.email,
+        phone_number: values.phoneNumber
+      };
+      
+
+      try {
+        const response = await axios.post(`${BASEHOST}/doctors`, data, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log(response.data);
+        setSubmitSuccess(true);
+      } catch (error) {
+        console.log('Error submitting the form:', error);
+        setError('There was an error submitting your details. Please try again later.');
+      } finally {
+        setIsSubmitting(false);
+      }
     },
   });
 
   if (submitSuccess) {
     return (
-      <div className="max-w-md mx-auto  p-6 bg-white rounded-lg shadow-xl px-2 md:px-[100px] mt-5">
+      <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-xl px-2 md:px-[100px] mt-5">
         <h2 className="text-2xl font-bold text-green-600 mb-4">Verification Submitted</h2>
         <p className="text-gray-700">
           Thank you for submitting your verification details. Our team will review your information and get back to you shortly.
@@ -55,6 +76,7 @@ const DoctorForm = () => {
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
       <h2 className="text-2xl font-bold text-[#E4258F] mb-6">Doctor Verification Form</h2>
+      {error && <div className="text-red-500 mb-4">{error}</div>}
       <form onSubmit={formik.handleSubmit}>
         <div className="mb-4">
           <label htmlFor="fullName" className="block text-gray-700 font-bold mb-2">Full Name</label>
