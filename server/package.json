@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon api/e-commerce/server.js"
+    "start": "nodemon api/e-commerce/index.js"
   },
   "keywords": [],
   "author": "",

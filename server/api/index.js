@@ -46,7 +46,7 @@ app.use(
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Replace with your frontend URL
+    // Replace with your frontend URL
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
@@ -84,6 +84,7 @@ const db = mysql.createConnection({
   user: DBUSER,
   password: PASSWORD, // Replace with your MySQL password
   database: DATABASE,
+  port: 3306,
 });
 
 db.connect((err) => {
