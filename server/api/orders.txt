@@ -1,0 +1,113 @@
+Orders API Documentation
+This documentation provides an overview of the endpoints for managing orders in the system. The API allows for the creation, retrieval, updating, and deletion of orders.
+
+Endpoints
+1. Create Order
+Endpoint: POST /orders
+
+Description: Creates a new order.
+
+Request Body:
+
+json
+
+{
+    "user_id": "integer",
+    "product_id": "integer",
+    "amount": "float",
+    "date": "string"
+}
+
+
+Response:
+
+201 Created
+json
+
+{
+    "message": "Order created successfully"
+}
+2. List All Orders
+Endpoint: GET /orders
+
+Description: Retrieves a list of all orders.
+
+Response:
+
+200 OK
+json
+
+[
+    {
+        "id": "integer",
+        "user_id": "integer",
+        "product_id": "integer",
+        "amount": "float",
+        "date": "string"
+    },
+    ...
+]
+3. Get Order by ID
+Endpoint: GET /orders/:id
+
+Description: Retrieves details of a specific order by its ID.
+
+Path Parameters:
+
+id: The ID of the order to retrieve.
+Response:
+
+200 OK
+json
+
+{
+    "id": "integer",
+    "user_id": "integer",
+    "product_id": "integer",
+    "amount": "float",
+    "date": "string"
+}
+4. Update Order
+Endpoint: PUT /orders/:id
+
+Description: Updates an existing order.
+
+Path Parameters:
+
+id: The ID of the order to update.
+Request Body:
+
+json
+
+{
+    "user_id": "integer",
+    "product_id": "integer",
+    "amount": "float",
+    "date": "string"
+}
+Response:
+
+200 OK
+json
+
+{
+    "message": "Order updated successfully"
+}
+5. Delete Order
+Endpoint: DELETE /orders/:id
+
+Description: Deletes an order by its ID.
+
+Path Parameters:
+
+id: The ID of the order to delete.
+Response:
+
+200 OK
+json
+
+{
+    "message": "Order deleted successfully"
+}
+
+

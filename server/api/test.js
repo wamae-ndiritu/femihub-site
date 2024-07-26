@@ -4,7 +4,7 @@ const mysql = require("mysql2");
 const db = mysql.createConnection({
   host: "45.56.98.224",
   user: "femihub_femihub",
-  database: "femihub_femihub",
+  database: "femihub_femihub_db",
   password: "FemihubIODEV123",
   port: 3306,
 });

@@ -33,7 +33,7 @@ app.use(session({
 
 app.use(
 	cors({
-		origin: "http://localhost:3000", // Replace with your frontend URL
+		origin: "http://localhost:3000",
 		methods: "GET,POST,PUT,DELETE",
 		credentials: true,
 	})
@@ -71,10 +71,10 @@ passport.deserializeUser((user, done) => {
 
 // MySQL connection
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '', // Replace with your MySQL password
-    database: 'femihub'
+    host: PROCESS.env.host ,
+    user: PROCESS.env.user,
+    password:PROCESS.env.password, 
+    database: PROCESS.env.database
 });
 
 db.connect(err => {
