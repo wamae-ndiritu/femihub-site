@@ -1,1 +1,1 @@
-export const BASEHOST = "https://femihubsite-ty73.vercel.app/";
+export const BASEHOST = "https://femihubsite-ty73.vercel.app";
