@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS femihub;
+CREATE DATABASE IF NOT EXISTS femihub_femihub;
 
 USE femihub;
 

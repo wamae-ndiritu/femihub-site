@@ -1,61 +1,20 @@
 const mysql = require('mysql2');
 
-// Create a connection to the database
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'newuser',
-    password: 'password', // Replace with your MySQL password
-    database: 'femihub'
+const connection = mysql.createConnection({
+
 });
 
-// Connect to the database
-db.connect(err => {
+connection.connect(err => {
+  if (err) {
+    console.error('Error connecting to the database:', err);
+    return;
+  }
+  console.log('Successfully connected to the database!');
+  connection.end(err => {
     if (err) {
-        console.error('Error connecting to the database:', err);
-        return;
+      console.error('Error closing the database connection:', err);
+      return;
     }
-    console.log('Connected to the database');
+    console.log('Database connection closed');
+  });
 });
-
-// Fetch data from the API
-fetch('https://fakestoreapi.com/products')
-    .then(res => res.json())
-    .then(json => {
-        // Process the response to extract the desired fields
-        const products = json.map(product => ({
-            name: product.title,
-            price: product.price,
-            description: product.description,
-            imageUrl: product.image
-        }));
-
-        // Insert each product into the database
-        const insertProduct = (product) => {
-            const query = `
-                INSERT INTO products (name, description, price, image)
-                VALUES (?, ?, ?, ?)
-            `;
-            db.query(query, [product.name, product.description, product.price, product.imageUrl], (err, results) => {
-                if (err) {
-                    console.error('Error inserting product:', err);
-                    return;
-                }
-                console.log('Product inserted with ID:', results.insertId);
-            });
-        };
-
-        products.forEach(insertProduct);
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    })
-    .finally(() => {
-        // Close the database connection
-        db.end(err => {
-            if (err) {
-                console.error('Error closing the database connection:', err);
-                return;
-            }
-            console.log('Database connection closed');
-        });
-    });
