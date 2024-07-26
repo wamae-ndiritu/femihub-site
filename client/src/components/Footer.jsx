@@ -5,7 +5,7 @@ import { FaCcPaypal, FaCcMastercard, FaCcVisa } from 'react-icons/fa';
 import femihublogo from "../../public/images/femihublogo.png"
 const Footer = () => {
   return (
-    <footer className="bg-custom-pink text-white py-12 w-full">
+    <footer className="bg-custom-pink text-white py-12 w-full fixed botton-0">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo and Newsletter */}

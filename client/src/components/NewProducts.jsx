@@ -4,33 +4,50 @@ import supplement from "../assets/supplement.png";
 import { BASEHOST } from "../use";
 import axios from "axios";
 import { addTocart } from "./add";
-const ProductCard = ({ id, image, category, name, price, salePrice }) => (
-  <div className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow relative">
-    <img src={image} alt={name} className="w-full h-40 object-contain mb-4" />
-    <div className="text-sm text-gray-500 mb-1">{category}</div>
-    <h3 className="text-lg font-semibold mb-2">{name}</h3>
-    <div className="flex justify-between items-center">
-      <div>
-        {salePrice ? (
-          <div>
-            <span className="text-gray-400 line-through mr-2">${price}</span>
-            <span className="text-custom-pink font-bold">${salePrice}</span>
-          </div>
-        ) : (
-          <span className="font-bold">${price}</span>
-        )}
+
+const ProductCard = ({ id, image, category, name, price, salePrice, description }) => {
+  const [addedToCart, setAddedToCart] = useState(false);
+
+  const handleAddToCart = () => {
+    if (!addedToCart) {
+      addTocart({ id, name, image, description, price });
+    }
+    setAddedToCart(!addedToCart);
+  };
+
+  return (
+    <div className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow relative">
+      <img src={image} alt={name} className="w-full h-40 object-contain mb-4" />
+      <div className="text-sm text-gray-500 mb-1">{category}</div>
+      <h3 className="text-lg font-semibold mb-2">{name}</h3>
+      <div className="flex justify-between items-center">
+        <div>
+          {salePrice ? (
+            <div>
+              <span className="text-gray-400 line-through mr-2">${price}</span>
+              <span className="text-custom-pink font-bold">${salePrice}</span>
+            </div>
+          ) : (
+            <span className="font-bold">${price}</span>
+          )}
+        </div>
+        <button
+          onClick={handleAddToCart}
+          className={`px-3 py-1 rounded-full text-sm transition-colors ${
+            addedToCart ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800 hover:bg-blue-200'
+          }`}
+        >
+          {addedToCart ? 'Added to cart' : 'Add to cart'}
+        </button>
       </div>
-      <button onClick={()=>addTocart({id, name, image, description, price})} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm hover:bg-blue-200 transition-colors">
-        Add to cart
-      </button>
+      {salePrice && (
+        <span className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+          Sale
+        </span>
+      )}
     </div>
-    {salePrice && (
-      <span className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-        Sale
-      </span>
-    )}
-  </div>
-);
+  );
+};
 
 const NewProducts = () => {
   const [products, setProducts] = useState([]);

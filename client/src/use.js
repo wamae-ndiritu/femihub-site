@@ -1,1 +1,2 @@
-export const BASEHOST = "https://femihubsite-ty73.vercel.app";
+const env = "development"
+export const BASEHOST = "http://localhost:3000";

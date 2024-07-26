@@ -46,6 +46,7 @@ app.use(
 
 app.use(
   cors({
+    origin: "http://localhost:5173",
     // Replace with your frontend URL
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
@@ -88,9 +89,8 @@ const db = mysql.createConnection({
 });
 
 db.connect((err) => {
-  if (err)
-  {
-    console.log('Error connecting to MySQL: ' + err);
+  if (err) {
+    console.log("Error connecting to MySQL: " + err);
     throw err;
   }
   console.log("MySQL connected...");
@@ -115,12 +115,24 @@ app.get(
 
 // Authentication endpoints
 app.post("/register", async (req, res) => {
+  console.log("Register endpoint hit");
   const { name, email, phone_number, password } = req.body;
 
   try {
     if (!password) {
       return res.status(400).json({ error: "Password is required" });
     }
+    const userExistsQuery = "SELECT * FROM users WHERE email = ?";
+    db.query(userExistsQuery, [email], (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ error: err.message });
+      }
+
+      if (result.length > 0) {
+        return res.status(400).json({ error: "Email already exists" });
+      }
+    });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const query =
@@ -129,11 +141,16 @@ app.post("/register", async (req, res) => {
       query,
       [name, email, phone_number, hashedPassword],
       (err, result) => {
-        if (err) return res.status(500).json({ error: err.message });
+        if (err) {
+          console.log(err);
+          res.status(500).json({ error: err.message });
+        }
+
         res.status(201).json({ message: "User registered successfully" });
       }
     );
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Error hashing password" });
   }
 });
