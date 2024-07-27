@@ -567,6 +567,52 @@ app.delete('/orders/:id', (req, res, next) => {
     });
 });
 
+app.post('/appointments', (req, res) => {
+    const { user_id, username, appointment_reason } = req.body;
+
+    const query = 'INSERT INTO appointments (user_id, username, appointment_reason) VALUES (?, ?, ?)';
+    db.query(query, [user_id, username, appointment_reason], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ message: 'Appointment created successfully' });
+    });
+});
+
+app.get('/appointments', (req, res) => {
+    const query = 'SELECT * FROM appointments';
+    db.query(query, (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
+});
+
+app.get('/appointments/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'SELECT * FROM appointments WHERE id = ?';
+    db.query(query, [id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    });
+});
+
+app.put('/appointments/:id', (req, res) => {
+    const { id } = req.params;
+    const { user_id, username, appointment_reason } = req.body;
+    const query = 'UPDATE appointments SET user_id = ?, username = ?, appointment_reason = ? WHERE id = ?';
+    db.query(query, [user_id, username, appointment_reason, id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: 'Appointment updated successfully' });
+    });
+});
+
+app.delete('/appointments/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'DELETE FROM appointments WHERE id = ?';
+    db.query(query, [id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: 'Appointment deleted successfully' });
+    });
+});
+
 // Reminder endpoints (to be added later)
 
 const PORT = 3030;
