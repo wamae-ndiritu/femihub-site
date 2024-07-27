@@ -613,6 +613,66 @@ app.delete('/appointments/:id', (req, res) => {
     });
 });
 
+// CRUD operations for categories
+app.post('/categories', (req, res) => {
+    const { name, description } = req.body;
+    const query = 'INSERT INTO categories (name, description) VALUES (?, ?)';
+    db.query(query, [name, description], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ message: 'Category created successfully' });
+    });
+});
+
+app.get('/categories', (req, res) => {
+    const query = 'SELECT * FROM categories';
+    db.query(query, (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
+});
+
+app.get('/categories/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'SELECT * FROM categories WHERE id = ?';
+    db.query(query, [id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    });
+});
+
+app.put('/categories/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, description } = req.body;
+    const query = 'UPDATE categories SET name = ?, description = ? WHERE id = ?';
+    db.query(query, [name, description, id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: 'Category updated successfully' });
+    });
+});
+
+app.delete('/categories/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'DELETE FROM categories WHERE id = ?';
+    db.query(query, [id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: 'Category deleted successfully' });
+    });
+});
+
+// Endpoint to get products grouped by category
+app.get('/products-by-category', (req, res) => {
+    const query = `
+        SELECT c.name as category_name, p.id as product_id, p.name as product_name, p.description, p.price, p.image 
+        FROM products p 
+        JOIN categories c ON p.category_id = c.id
+        ORDER BY c.name, p.name
+    `;
+    db.query(query, (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
+});
+
 // Reminder endpoints (to be added later)
 
 const PORT = 3030;
