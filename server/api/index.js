@@ -673,6 +673,84 @@ app.get('/products-by-category', (req, res) => {
     });
 });
 
+
+// Get latest products
+router.get('/shop/latest', (req, res) => {
+    const query = 'SELECT * FROM products ORDER BY created_at DESC LIMIT 10';
+    db.query(query, (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
+});
+
+// Get favorite products
+router.get('/favorites', (req, res) => {
+    const { userId } = req.query;
+    const query = 'SELECT p.* FROM favorites f JOIN products p ON f.product_id = p.id WHERE f.user_id = ?';
+    db.query(query, [userId], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
+});
+
+
+// Book a consultation
+router.post('/consultation', (req, res) => {
+    const { username, userId, reason } = req.body;
+    const query = 'INSERT INTO consultations (username, user_id, reason) VALUES (?, ?, ?)';
+    db.query(query, [username, userId, reason], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ message: 'Consultation booked successfully' });
+    });
+});
+
+// Get products by various filters
+router.get('/shop', (req, res) => {
+    const { size, fabric, pack, style, minPrice, maxPrice } = req.query;
+    let query = 'SELECT * FROM products WHERE 1=1';
+    let params = [];
+
+    if (size) {
+        query += ' AND size = ?';
+        params.push(size);
+    }
+    if (fabric) {
+        query += ' AND fabric = ?';
+        params.push(fabric);
+    }
+    if (pack) {
+        query += ' AND pack = ?';
+        params.push(pack);
+    }
+    if (style) {
+        query += ' AND style = ?';
+        params.push(style);
+    }
+    if (minPrice) {
+        query += ' AND price >= ?';
+        params.push(minPrice);
+    }
+    if (maxPrice) {
+        query += ' AND price <= ?';
+        params.push(maxPrice);
+    }
+
+    db.query(query, params, (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
+});
+
+// Get products by category
+router.get('/shop/category/:categoryId', (req, res) => {
+    const { categoryId } = req.params;
+    const query = 'SELECT * FROM products WHERE category_id = ?';
+    db.query(query, [categoryId], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
+});
+
 // Reminder endpoints (to be added later)
 
 const PORT = 3030;
