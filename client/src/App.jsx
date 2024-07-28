@@ -17,6 +17,8 @@ import Signup from './components/signup';
 import FAQS from './components/FAQS';
 import DownloadAppSection from './components/DownloadAppSection';
 import ChatbotModal from './components/ChatbotModal';
+import PREP from './components/PREP';
+import PEPInfo from './components/PEPInfo';
 
 const Home = () => (
   <div className='px-2 md:px-[100px] mt-2'>
@@ -46,6 +48,8 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/faqs' element={<FAQS />} />
+        <Route path='/prep' element={<PREP />} />
+        <Route path='/pep' element={<PEPInfo />} />
       </Routes>
       <ChatbotModal />
       <Footer />

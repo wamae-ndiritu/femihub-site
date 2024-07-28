@@ -9,8 +9,6 @@ const Navbar = () => {
 
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "Shop", href: "/shop" },
-
     {
       name: "Maternal Wellness",
       submenu: [

@@ -37,7 +37,7 @@ const ChatbotModal = () => {
         </svg>
       </button>
       {isOpen && (
-        <div className='fixed bottom-16 right-4 border border-gray-300 bg-white rounded-lg shadow-lg p-6 max-w-xs w-full z-50'>
+        <div className='fixed bottom-16 right-4 border border-custom-pink bg-white rounded-lg shadow-lg p-6 max-w-xs w-full z-50'>
           <div className='flex justify-between items-center mb-4 bg-gray-200 px-4 py-2 rounded'>
             <h3 className='text-xl font-bold'>Chat with FemiHub</h3>
             <button
@@ -76,7 +76,7 @@ const ChatbotModal = () => {
               className='w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600'
               placeholder='Type your question...'
             />
-            <button className='mt-2 w-full bg-purple-600 text-white p-2 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50'>
+            <button className='mt-2 w-full bg-custom-pink text-white p-2 rounded-md hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50'>
               Send
             </button>
           </div>
