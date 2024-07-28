@@ -9,6 +9,7 @@ const cors = require('cors');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const paypal = require('@paypal/checkout-server-sdk');
+require('dotenv').config();
 
 // PayPal environment configuration
 let environment = new paypal.core.SandboxEnvironment('YOUR_CLIENT_ID', 'YOUR_CLIENT_SECRET');
@@ -33,7 +34,7 @@ app.use(session({
 
 app.use(
 	cors({
-		origin: "http://localhost:3000",
+		origin: "*",
 		methods: "GET,POST,PUT,DELETE",
 		credentials: true,
 	})
@@ -70,11 +71,13 @@ passport.deserializeUser((user, done) => {
 });
 
 // MySQL connection
+console.log(process.env.host)
 const db = mysql.createConnection({
-    host: '45.56.98.224',
-    user: 'femihub',
-    password:'', 
-    database: 'femihub_femihub_db'
+    host: process.env.host,
+    port: process.env.port,
+    user: process.env.user,
+    password: process.env.password, 
+    database: process.env.database
 });
 
 db.connect(err => {

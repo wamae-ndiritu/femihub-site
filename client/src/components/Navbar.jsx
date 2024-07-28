@@ -26,6 +26,7 @@ const Navbar = () => {
       ],
     },
     { name: "Doctor Registration", href: "/doctorverify" },
+    { name: "FAQS", href: "/faqs" },
   ];
 
   const toggleSubmenu = (index) => {
