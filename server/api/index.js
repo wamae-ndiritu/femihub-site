@@ -675,7 +675,7 @@ app.get('/products-by-category', (req, res) => {
 
 
 // Get latest products
-router.get('/shop/latest', (req, res) => {
+app.get('/shop/latest', (req, res) => {
     const query = 'SELECT * FROM products ORDER BY created_at DESC LIMIT 10';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -684,7 +684,7 @@ router.get('/shop/latest', (req, res) => {
 });
 
 // Get favorite products
-router.get('/favorites', (req, res) => {
+app.get('/favorites', (req, res) => {
     const { userId } = req.query;
     const query = 'SELECT p.* FROM favorites f JOIN products p ON f.product_id = p.id WHERE f.user_id = ?';
     db.query(query, [userId], (err, results) => {
@@ -695,7 +695,7 @@ router.get('/favorites', (req, res) => {
 
 
 // Book a consultation
-router.post('/consultation', (req, res) => {
+app.post('/consultation', (req, res) => {
     const { username, userId, reason } = req.body;
     const query = 'INSERT INTO consultations (username, user_id, reason) VALUES (?, ?, ?)';
     db.query(query, [username, userId, reason], (err, result) => {
@@ -705,7 +705,7 @@ router.post('/consultation', (req, res) => {
 });
 
 // Get products by various filters
-router.get('/shop', (req, res) => {
+app.get('/shop', (req, res) => {
     const { size, fabric, pack, style, minPrice, maxPrice } = req.query;
     let query = 'SELECT * FROM products WHERE 1=1';
     let params = [];
@@ -742,7 +742,7 @@ router.get('/shop', (req, res) => {
 });
 
 // Get products by category
-router.get('/shop/category/:categoryId', (req, res) => {
+app.get('/shop/category/:categoryId', (req, res) => {
     const { categoryId } = req.params;
     const query = 'SELECT * FROM products WHERE category_id = ?';
     db.query(query, [categoryId], (err, results) => {
