@@ -16,6 +16,7 @@ import Login from './components/login';
 import Signup from './components/signup';
 import FAQS from './components/FAQS';
 import DownloadAppSection from './components/DownloadAppSection';
+import ChatbotModal from './components/ChatbotModal';
 
 const Home = () => (
   <div className='px-2 md:px-[100px] mt-2'>
@@ -28,7 +29,6 @@ const Home = () => (
     <DealsOfTheWeek />
     <NewProducts />
     <DownloadAppSection />
-    <Footer />
   </div>
 );
 
@@ -47,6 +47,7 @@ const App = () => {
         <Route path='/signup' element={<Signup />} />
         <Route path='/faqs' element={<FAQS />} />
       </Routes>
+      <ChatbotModal />
       <Footer />
     </BrowserRouter>
   );

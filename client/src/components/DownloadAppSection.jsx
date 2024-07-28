@@ -2,7 +2,7 @@ import React from "react";
 
 const DownloadAppSection = () => {
   return (
-    <section className='bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-8 px-4 md:px-8'>
+    <section className='bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-8 px-4 md:px-8 my-12'>
       <div className='max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between'>
         <div className='md:w-1/2 mb-8 md:mb-0'>
           <h2 className='text-4xl font-bold mb-4'>
