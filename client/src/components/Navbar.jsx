@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 import { CiHeart, CiShoppingCart } from "react-icons/ci";
 import Cart from "./cart";
+import { Link } from "react-router-dom";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
 
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "Shop", href: "/shop" },
-
     {
       name: "Maternal Wellness",
       submenu: [
@@ -26,6 +25,7 @@ const Navbar = () => {
       ],
     },
     { name: "Doctor Registration", href: "/doctorverify" },
+    { name: "FAQS", href: "/faqs" },
   ];
 
   const toggleSubmenu = (index) => {
@@ -36,7 +36,7 @@ const Navbar = () => {
     <nav className="mt-2 px-4 lg:px-[100px]">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
+          <Link to='/' className="flex items-center">
             <img
               className="h-8 w-auto"
               src="/images/femihublogo.png"
@@ -45,7 +45,7 @@ const Navbar = () => {
             <span className="ml-2 text-xl font-bold text-gray-800">
               My<span className="text-[#E4258F]">FemiHub</span>
             </span>
-          </div>
+          </Link>
 
           <div className="hidden lg:block">
             <div className="ml-10 flex items-center">

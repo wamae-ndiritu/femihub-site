@@ -5,6 +5,7 @@ import diagonsis from "../assets/diagonsis.png"
 import cardiology from "../assets/cardiology.png"
 import bones from "../assets/bones.png"
 import eyecare from "../assets/eyecare.png"
+import doctors from "../assets/doctors.jpeg";
 
 const ServicesSection = () => {
   const services = [
@@ -20,7 +21,7 @@ const ServicesSection = () => {
     },
     {
       title: 'Diagnosis',
-      image: diagonsis,
+      image: doctors,
       description: 'Lorem ipsum dolor sit amet consecte tur adipiscing elit semper dalarcu lacus vel facilisis volutpat est velitolm.',
     },
     {
