@@ -11,11 +11,7 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     {
       name: "Maternal Wellness",
-      submenu: [
-        { name: "Antenatal", href: "/antenatal" },
-        { name: "Postnatal", href: "/postnatal" },
-        { name: "Consult with Doctor", href: "/doctor" },
-      ],
+      href: "/maternal-wellness",
     },
     {
       name: "HIV Services",
@@ -24,6 +20,7 @@ const Navbar = () => {
         { name: "PEP", href: "/pep" },
       ],
     },
+    { name: "Consult with Doctor", href: "/doctor" },
     { name: "Doctor Registration", href: "/doctorverify" },
     { name: "FAQS", href: "/faqs" },
   ];

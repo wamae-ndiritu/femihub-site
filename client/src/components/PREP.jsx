@@ -4,20 +4,21 @@ import sureCheck from "../assets/sure-check.jpeg";
 
 const PREP = () => {
   return (
-    <section className='bg-white min-h-screen flex items-center justify-center py-16 px-4 md:px-8'>
+    <section className='bg-white min-h-screen flex items-center justify-center pb-16 px-4 md:px-8'>
       <div className='mx-auto flex flex-col items-center'>
-        <div className='md:w-4/5 px-8 mb-8'>
+        <h2 className='text-2xl md:text-4xl font-bold text-custom-pink my-8 text-center'>
+          Pre-Exposure Prophylaxis (PrEP)
+        </h2>
+        <div className='w-full md:w-4/5 md:px-8 mb-8'>
           <img
             src='/images/prep.png'
             alt='PrEP Information'
-            className='w-full h-96 rounded-lg shadow-md'
+            className='w-full md:h-96'
           />
         </div>
         <div className='md:w-4/5 text-gray-600 bg-white'>
-          <h2 className='text-2xl font-bold my-4 px-8'>
-            Facts about PrEP
-          </h2>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          <h2 className='text-2xl font-bold my-4 px-8'>Facts about PrEP</h2>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
             <div className='p-6 rounded-lg'>
               <h5 className='font-semibold mb-2'>Effective</h5>
               <p className='text-gray-700'>
@@ -81,7 +82,11 @@ const PREP = () => {
               the detection of antibodies to HIV in blood. The test is intended
               to be used by untrained lay users in a private setting as a
               self-test to aid in the diagnosis of HIV. It gives results within
-              15 minutes.
+              15 minutes. You can click on this{" "}
+              <a href='#' className='text-custom-pink underline'>
+                link
+              </a>{" "}
+              to order your Mylan HIV self-test kit.
             </p>
             <div className='w-full relative mt-4'>
               <img src={sureCheck} alt='SureCheck' className='h-32 mx-auto' />
@@ -90,12 +95,26 @@ const PREP = () => {
               </h6>
             </div>
             <p>
-              The SureCheck HIV self-test is a single use, rapid diagnostic test for
-              the detection of antibodies to HIV in blood. The test is intended
-              to be used by untrained lay users in a private setting as a
-              self-test to aid in the diagnosis of HIV. It gives results within
-              15 minutes.
+              The SureCheck HIV self-test is a single use, rapid diagnostic test
+              for the detection of antibodies to HIV in blood. The test is
+              intended to be used by untrained lay users in a private setting as
+              a self-test to aid in the diagnosis of HIV. It gives results
+              within 15 minutes. You can click on this{" "}
+              <a href='#' className='text-custom-pink underline'>
+                link
+              </a>{" "}
+              to order your SureCheck HIV self-test kit.
             </p>
+            <div className='w-full flex justify-center'>
+              <a
+                href='https://wa.me/256743799700'
+                className='my-4 inline-block bg-custom-pink text-white px-6 py-3 rounded-full shadow-md hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 mx-auto'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                Book an Online Consultation
+              </a>
+            </div>
           </div>
         </div>
       </div>

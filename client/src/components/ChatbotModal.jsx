@@ -19,7 +19,7 @@ const ChatbotModal = () => {
     <div>
       <button
         onClick={toggleModal}
-        className='fixed bottom-4 right-4 bg-purple-600 h-16 w-16 flex justify-center items-center text-white p-3 rounded-full shadow-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50'
+        className='fixed bottom-4 right-4 bg-custom-pink border border-gray-300 h-16 w-16 flex justify-center items-center text-white p-3 rounded-full shadow-lg hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-600 focus:ring-opacity-50'
       >
         <svg
           className='w-6 h-6'
