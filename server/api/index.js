@@ -16,7 +16,6 @@ const DBHOST = process.env.DBHOST;
 const DBUSER = process.env.DBUSER;
 const PASSWORD = process.env.PASSWORD;
 const DATABASE = process.env.DATABASE;
-console.log(DBHOST, DBUSER, PASSWORD, DATABASE);
 
 // PayPal environment configuration
 let environment = new paypal.core.SandboxEnvironment(
@@ -83,7 +82,7 @@ passport.deserializeUser((user, done) => {
 const db = mysql.createConnection({
   host: DBHOST,
   user: DBUSER,
-  password: PASSWORD, // Replace with your MySQL password
+  password: PASSWORD,
   database: DATABASE,
   port: 3306,
 });
