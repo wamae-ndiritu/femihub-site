@@ -11,6 +11,13 @@ const passport = require('passport');
 const paypal = require('@paypal/checkout-server-sdk');
 require('dotenv').config();
 
+
+const DBHOST = process.env.DBHOST;
+const DBUSER = process.env.DBUSER;
+const PASSWORD = process.env.PASSWORD;
+const DATABASE = process.env.DATABASE;
+
+
 // PayPal environment configuration
 let environment = new paypal.core.SandboxEnvironment('YOUR_CLIENT_ID', 'YOUR_CLIENT_SECRET');
 let client = new paypal.core.PayPalHttpClient(environment);
@@ -71,18 +78,20 @@ passport.deserializeUser((user, done) => {
 });
 
 // MySQL connection
-console.log(process.env.host)
 const db = mysql.createConnection({
-    host: process.env.host,
-    port: process.env.port,
-    user: process.env.user,
-    password: process.env.password, 
-    database: process.env.database
+  host: DBHOST,
+  user: DBUSER,
+  password: PASSWORD,
+  database: DATABASE,
+  port: 3306,
 });
 
-db.connect(err => {
-    if (err) throw err;
-    console.log('MySQL connected...');
+db.connect((err) => {
+  if (err) {
+    console.log("Error connecting to MySQL: " + err);
+    throw err;
+  }
+  console.log("MySQL connected...");
 });
 
 // Google Authentication Routes

@@ -11,54 +11,33 @@ const Product = ({
     category,
     name,
     price,
-    salePrice = 0,
     description,
 }) => {
     const [buttonText, setButtonText] = useState(cartItems.includes(id) ? "Added" : "Add to cart");
 
     const handleAddToCart = () => {
         addTocart({ id, name, image, description, price });
-        setButtonText("Added");
-        // Update the local storage as well
         const updatedCartItems = [...cartItems, id];
         localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
     };
 
     return (
-      <div className='bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:translate-y-[-5px] flex flex-col h-full'>
+      <div className='bg-white border border-gray-300 rounded-lg shadow-md overflow-hidden transition-transform hover:translate-y-[-5px] flex flex-col h-full p-2'>
         <div className='relative h-48'>
-          <img
-            src={image}
-            alt={name}
-            className='w-full h-full object-contain'
-          />
-          {salePrice && (
-            <span className='absolute top-2 right-2 bg-custom-pink text-white text-xs px-2 py-1 rounded-full'>
-              Sale
-            </span>
-          )}
+          <img src={image} alt={name} className='w-full h-full object-cover' />
         </div>
         <div className='p-4 flex-grow'>
+          <h3 className='text-lg text-gray-600 py-1 mb-2'>{name}</h3>
           <span className='text-sm text-gray-500'>{category}</span>
-          <h3 className='text-lg font-semibold mt-1 mb-2'>{name}</h3>
-          <div className='text-custom-pink font-bold'>
-            {salePrice ? (
-              <>
-                <span className='line-through text-gray-400 mr-2'>
-                  ${price}
-                </span>
-                <span>UGsh{salePrice}</span>
-              </>
-            ) : (
-              <span>UGsh{price}</span>
-            )}
-          </div>
+          <h6 className='text-custom-pink text-md'>
+              Ush {price}
+          </h6>
         </div>
         <button
           onClick={handleAddToCart}
-          className='w-1/2 self-center my-2 rounded-full bg-custom-pink text-white py-2 hover:bg-pink-700 transition-colors mt-auto'
+          className='w-full self-center my-2 rounded-md bg-custom-pink text-white py-2 hover:bg-pink-700 transition-colors mt-auto'
         >
-          {buttonText}
+          Add to Cart
         </button>
       </div>
     );
@@ -98,10 +77,10 @@ const BestSellingProducts = () => {
 
     return (
         <div className="py-8">
-            <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+            <h2 className="text-3xl font-bold text-gray-800 mb-8">
                 Best Selling Products
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
                 {currentProducts.map((product, index) => (
                     <Product key={index} {...product} cartItems={cartItems} />
                 ))}

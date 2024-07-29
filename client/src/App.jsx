@@ -25,11 +25,8 @@ import MaternalWellness from './components/MaternalWellness';
 
 const Home = () => (
   <div className='px-2 md:px-[100px] mt-2'>
-    {/* <TopNav /> */}
-    {/* <MainNavbar /> */}
     <SearchContainer />
     <HeroSwiper />
-    <ProductSelector />
     <BestSellingProducts />
     <DealsOfTheWeek />
     <NewProducts />
