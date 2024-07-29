@@ -4,7 +4,7 @@ import { HiSearch, HiChevronDown } from 'react-icons/hi';
 const SearchContainer = () => {
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const categories = ['All Categories', 'Supplements', 'Fitness', 'Personal Care', 'Nutrition','Maternal care', 'Sexual wellness', 'Baby products'];
+  const categories = ['All Categories', 'Maternal Products', 'Baby Products'];
 
   return (
     <div className="my-2  mx-auto ">

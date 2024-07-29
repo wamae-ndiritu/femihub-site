@@ -72,7 +72,7 @@ const Cart = ({ isOpen, setIsOpen }) => {
                                 </div>
                               </div>
                               <div className='flex-1 flex items-end justify-between text-sm'>
-                                <p className='text-gray-500'>Qty 1</p>
+                                <p className='text-gray-500'>Qty {item.qty}</p>
                                 <div className='flex'>
                                   <button
                                     type='button'
