@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BASEHOST } from "../use";
-import { addTocart } from "./add";
+// import { addTocart } from "./add";
 import { TiTick } from "react-icons/ti";
+import { useCart } from "../context/CartContext";
 
 const Product = ({
-    cartItems,
     id,
     image,
     category,
@@ -13,10 +13,11 @@ const Product = ({
     price,
     description,
 }) => {
-    const [buttonText, setButtonText] = useState(cartItems.includes(id) ? "Added" : "Add to cart");
+    const { cartItems, addItemToCart } =
+      useCart();
 
     const handleAddToCart = () => {
-        addTocart({ id, name, image, description, price });
+        addItemToCart({ id, name, image, description, price });
         const updatedCartItems = [...cartItems, id];
         localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
     };
@@ -47,7 +48,6 @@ const BestSellingProducts = () => {
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
-    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
     useEffect(() => {
         axios
@@ -82,7 +82,7 @@ const BestSellingProducts = () => {
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
                 {currentProducts.map((product, index) => (
-                    <Product key={index} {...product} cartItems={cartItems} />
+                    <Product key={index} {...product} />
                 ))}
             </div>
             <div className="flex justify-center mt-8">
