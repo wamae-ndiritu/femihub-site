@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
 
 const Cart = ({ isOpen, setIsOpen }) => {
     const { cartItems, removeItemFromCart } = useCart();
+    const [totals, setTotals] = useState(0);
+  
 
-  const handleRemove = (itemId) => {
-    const updatedCartItems = cartItems.filter((item) => item.id.id !== itemId);
-    localStorage.setItem("cart", JSON.stringify(updatedCartItems));
-  };
-
-  const total = cartItems.reduce((sum, item) => sum + item.id.price * 1, 0);
+    useEffect(() => {
+      if (cartItems.length > 0){
+        const total = cartItems.reduce(
+          (sum, item) => sum + item.price * item.qty,
+          0
+        );
+        setTotals(total);
+      }
+    }, [cartItems])
 
   if (!isOpen) return null;
 
@@ -22,7 +27,7 @@ const Cart = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(false)}
         ></div>
         <section className='absolute inset-y-0 right-0 pl-10 max-w-full flex'>
-          <div className='w-screen max-w-md'>
+          <div className='w-screen md:max-w-md'>
             <div className='h-full flex flex-col bg-white shadow-xl overflow-y-scroll'>
               <div className='flex-1 py-6 overflow-y-auto px-4 sm:px-6'>
                 <div className='flex items-start justify-between'>
@@ -51,19 +56,19 @@ const Cart = ({ isOpen, setIsOpen }) => {
                     <div className='flow-root'>
                       <ul className='-my-6 divide-y divide-gray-200'>
                         {cartItems.map((item) => (
-                          <li key={item.id.id} className='py-6 flex'>
+                          <li key={item.id} className='py-6 flex'>
                             <div className='flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden'>
                               <img
-                                src={item.id.image}
-                                alt={item.id.title}
+                                src={item.image}
+                                alt={item.name}
                                 className='w-full h-full object-center object-cover'
                               />
                             </div>
                             <div className='ml-4 flex-1 flex flex-col'>
                               <div>
                                 <div className='flex justify-between text-base font-medium text-gray-900'>
-                                  <h3>{item.id.title}</h3>
-                                  <p className='ml-4'>${item.id.price}</p>
+                                  <h3>{item.name}</h3>
+                                  <p className='ml-4'>Ush {item.price}</p>
                                 </div>
                               </div>
                               <div className='flex-1 flex items-end justify-between text-sm'>
@@ -72,7 +77,9 @@ const Cart = ({ isOpen, setIsOpen }) => {
                                   <button
                                     type='button'
                                     className='font-medium text-[#E4258F] hover:text-[#C01F7E]'
-                                    onClick={() => handleRemove(item.id.id)}
+                                    onClick={() =>
+                                      removeItemFromCart(item.id)
+                                    }
                                   >
                                     Remove
                                   </button>
@@ -91,7 +98,7 @@ const Cart = ({ isOpen, setIsOpen }) => {
                 <div className='border-t border-gray-200 py-6 px-4 sm:px-6'>
                   <div className='flex justify-between text-base font-medium text-gray-900'>
                     <p>Subtotal</p>
-                    <p>${total.toFixed(2)}</p>
+                    <p>Ush {totals.toFixed(2)}</p>
                   </div>
                   <p className='mt-0.5 text-sm text-gray-500'>
                     Shipping and taxes calculated at checkout.
