@@ -35,7 +35,7 @@ const HeroSection = () => {
         <div className="absolute inset-0 flex justify-center items-center">
           <div className="bg-custom-pink rounded-full w-64 h-64 md:w-96 md:h-96"></div>
         </div>
-        <img src={doctor} alt="Doctor" className="relative z-10 max-w-full h-auto rounded-lg" />
+        <img src='/images/doctor.png' alt="Doctor" className="relative z-10  h-96 rounded-lg object-cover" />
         <div className="absolute bottom-0 right-0 bg-white p-2 rounded-lg shadow-md">
           <p className="text-sm font-semibold">24/7 Service</p>
         </div>
