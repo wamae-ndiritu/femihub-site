@@ -78,12 +78,12 @@ passport.deserializeUser((user, done) => {
 
 // MySQL connection
 const db = mysql.createConnection({
-  host: DBHOST,
-  user: DBUSER,
-  password: PASSWORD,
-  database: DATABASE,
-  port: 3306,
-});
+    host: DBHOST,
+    user: DBUSER,
+    password: PASSWORD,
+    database: DATABASE,
+    port: 3306,
+  });
 
 db.connect((err) => {
   if (err) {
@@ -138,7 +138,7 @@ app.post('/login', (req, res) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) return res.status(400).json({ error: 'Invalid password' });
         const token = jwt.sign({ id: user.id }, 'your_jwt_secret', { expiresIn: '1h' });
-        res.json({ token ,  user: { id: user.id, email: user.email, ...otherUserDetails } });
+        res.json({ token ,  user: { id: user.id, email: user.email } });
     });
 });
 
@@ -506,40 +506,51 @@ app.get('/v1/payments/payment', async (req, res) => {
 // });
 
 app.post('/orders', (req, res, next) => {
-  const { user_id, products } = req.body;
-  let totalAmount = 0;
-  products.forEach(product => {
+    const { user_id, products } = req.body;
+  
+    // Validate products
+    if (!Array.isArray(products) || products.length === 0) {
+      return res.status(400).json({ message: 'Invalid products data' });
+    }
+  
+    let totalAmount = 0;
+    products.forEach(product => {
+      if (typeof product.price !== 'number' || typeof product.quantity !== 'number') {
+        return res.status(400).json({ message: 'Invalid product data' });
+      }
       totalAmount += product.price * product.quantity;
-  });
-
-  db.beginTransaction((err) => {
+    });
+  
+    db.beginTransaction((err) => {
       if (err) return next(err);
-
+  
       const queryOrder = 'INSERT INTO orders (user_id, total_amount) VALUES (?, ?)';
       db.query(queryOrder, [user_id, totalAmount], (err, result) => {
+        if (err) {
+          return db.rollback(() => next(err));
+        }
+  
+        const orderId = result.insertId;
+        const queryOrderItems = 'INSERT INTO order_items (order_id, product_id, quantity, price) VALUES ?';
+        const orderItems = products.map(product => [orderId, product.product_id, product.quantity, product.price]);
+  
+        db.query(queryOrderItems, [orderItems], (err, result) => {
           if (err) {
-              return db.rollback(() => next(err));
+            return db.rollback(() => next(err));
           }
-
-          const orderId = result.insertId;
-          const queryOrderItems = 'INSERT INTO order_items (order_id, product_id, quantity, price) VALUES ?';
-          const orderItems = products.map(product => [orderId, product.product_id, product.quantity, product.price]);
-
-          db.query(queryOrderItems, [orderItems], (err, result) => {
-              if (err) {
-                  return db.rollback(() => next(err));
-              }
-
-              db.commit((err) => {
-                  if (err) {
-                      return db.rollback(() => next(err));
-                  }
-                  res.status(201).json({ message: 'Order created successfully', orderId });
-              });
+  
+          db.commit((err) => {
+            if (err) {
+              return db.rollback(() => next(err));
+            }
+            res.status(201).json({ message: 'Order created successfully', orderId });
           });
+        });
       });
+    });
   });
-});
+  
+  
 
 app.get('/orders', (req, res, next) => {
     const query = 'SELECT * FROM orders';
