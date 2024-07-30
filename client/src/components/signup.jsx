@@ -58,15 +58,10 @@ export default function Signup() {
           toast.error("Signup failed");
           return;
         }
-        Cookies.set("authToken", response.data.token, {
-          expires: 7,
-          secure: true,
-          sameSite: "strict",
-        });
-        toast.success("Signup successful!");
+        toast.success("Signup successful! You'll be redirected shortly...");
         setTimeout(() => {
-          navigate("/");
-        }, 2000);
+          navigate("/login");
+        }, 5000);
       })
       
       .catch((error) => {

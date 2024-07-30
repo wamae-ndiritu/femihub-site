@@ -24,10 +24,10 @@ const Footer = () => {
               <li className='flex items-center space-x-2'>
                 <MdEmail className='w-5 h-5 flex-shrink-0' />
                 <a
-                  href='mailto:Pavanvkoli@gmail.com'
+                  href='mailto:femihub@gmail.com'
                   className='hover:text-orange-500 transition duration-300'
                 >
-                  Pavanvkoli@gmail.com
+                  femihub@gmail.com
                 </a>
               </li>
             </ul>
