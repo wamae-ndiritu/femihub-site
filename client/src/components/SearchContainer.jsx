@@ -6,7 +6,7 @@ import { listCategories } from "../lib/apiCalls";
 const SearchContainer = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
-  const [selectedCatId, setSelectedCatId] = useState("All Categories");
+  const [selectedCatId, setSelectedCatId] = useState("");
   const [keyword, setKeyword] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [categories, setCategories] = useState([{id: '', name: "All Categories"}]);

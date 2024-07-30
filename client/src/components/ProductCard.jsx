@@ -4,7 +4,7 @@ const ProductCard = ({ id, image, category, name, price, description }) => {
   const { cartItems, addItemToCart } = useGlobalContext();
 
   const handleAddToCart = () => {
-    addItemToCart({ id, name, image, description, price });
+    addItemToCart({ id, name, image, description, price: Number(price) });
     const updatedCartItems = [...cartItems, id];
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
   };

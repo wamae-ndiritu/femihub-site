@@ -20,6 +20,7 @@ import PostnatalInfo from './components/PostnatalInfo';
 import MaternalWellness from './components/MaternalWellness';
 import ProductSection from './components/ProductSection';
 import Search from './components/Search';
+import { ToastContainer } from 'react-toastify';
 
 const Home = () => (
   <div className='px-2 md:px-[100px] mt-2'>
@@ -54,6 +55,7 @@ const App = () => {
       </Routes>
       <ChatbotModal />
       <Footer />
+      <ToastContainer />
     </BrowserRouter>
   );
 };

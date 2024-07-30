@@ -27,7 +27,11 @@ const Search = () => {
       fetchProducts();
     }
   }, [keyword, location]);
-  return <ProductSection title='Search Results' />;
+  return (
+    <div className='px-2 md:px-[100px] mt-2'>
+      <ProductSection title='Search Results' />
+    </div>
+  );
 };
 
 export default Search;

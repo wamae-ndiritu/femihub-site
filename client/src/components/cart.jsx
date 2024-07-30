@@ -5,10 +5,11 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import axios from "axios";
 import { BASEHOST } from "../use";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import { createOrder } from "../lib/apiCalls";
 
 const Cart = ({ isOpen, setIsOpen }) => {
-  const { cartItems, removeItemFromCart, addItemToCart, user } =
+  const { cartItems, removeItemFromCart, addItemToCart, user, clearCart } =
     useGlobalContext();
   const [totals, setTotals] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -24,7 +25,6 @@ const Cart = ({ isOpen, setIsOpen }) => {
   }, [cartItems]);
 
   const handleCheckout = async () => {
-    console.log("Setting loading to true");
     setLoading(true);
     try {
       if (!user) {
@@ -32,31 +32,21 @@ const Cart = ({ isOpen, setIsOpen }) => {
         setLoading(false);
         return;
       }
-      console.log("started....")
-      console.log(loading)
-      const response = await axios.post(`${BASEHOST}/orders`, {
-        user_id: user?.user.id,
-        products: cartItems,
-      });
-      console.log(response)
-
-      if (response.status === 201) {
-        toast.success("Login successful!");
+      await createOrder(user?.user?.id, cartItems);
+      toast.success("Your order has been created successfully");
+      setTimeout(() => {
+        clearCart();
         setIsOpen(false);
-        // Clear cart items if needed
-      } 
+      }, 5000);
     } catch (error) {
-      console.log(error)
       const message = error?.response
         ? error?.response?.data?.error
         : error?.message;
       toast.error(message);
-    } finally{
+    } finally {
       setLoading(false);
     }
   };
-
-  console.log(loading)
 
   if (!isOpen) return null;
 

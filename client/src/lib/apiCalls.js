@@ -32,3 +32,15 @@ export const listCategories = async () => {
     throw new Error(message);
   }
 };
+
+export const createOrder = async (userId, orderItems) => {
+  try {
+    await axios.post(`${BASEHOST}/orders`, {
+      user_id: userId,
+      products: orderItems,
+    });
+  } catch (error) {
+     const message = error?.response?.data?.error || error.message;
+     throw new Error(message);
+  }
+}

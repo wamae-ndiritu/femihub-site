@@ -4,7 +4,7 @@ import axios from "axios";
 import { BASEHOST } from "../use";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Signup() {
@@ -147,7 +147,6 @@ export default function Signup() {
           </button>
         </form>
       </div>
-      <ToastContainer />
     </div>
   );
 }

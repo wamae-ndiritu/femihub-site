@@ -532,16 +532,13 @@ app.post('/orders', (req, res, next) => {
   
     // Validate products
     if (!Array.isArray(products) || products.length === 0) {
-      return res.status(400).json({ message: 'Invalid products data' });
+      return res.status(400).json({ message: 'Products must not be empty' });
     }
   
-    let totalAmount = 0;
-    products.forEach(product => {
-      if (typeof product.price !== 'number' || typeof product.quantity !== 'number') {
-        return res.status(400).json({ message: 'Invalid product data' });
-      }
-      totalAmount += product.price * product.quantity;
-    });
+    const totalAmount =  products.reduce(
+      (sum, item) => sum + item.price * item.qty,
+      0
+    );
   
     db.beginTransaction((err) => {
       if (err) return next(err);
@@ -554,7 +551,7 @@ app.post('/orders', (req, res, next) => {
   
         const orderId = result.insertId;
         const queryOrderItems = 'INSERT INTO order_items (order_id, product_id, quantity, price) VALUES ?';
-        const orderItems = products.map(product => [orderId, product.product_id, product.quantity, product.price]);
+        const orderItems = products.map(product => [orderId, product.id, product.quantity, product.price]);
   
         db.query(queryOrderItems, [orderItems], (err, result) => {
           if (err) {
