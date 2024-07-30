@@ -1,5 +1,8 @@
 import React from "react";
 import maternalWellness from "../assets/maternal-1.png";
+import whyUs from "../assets/whyUs.jpeg";
+import postnatalCare from "../assets/postnatalCare.jpeg";
+import antenatalCare from "../assets/antenatalCare.jpeg";
 
 const MaternalWellness = () => {
   return (
@@ -15,11 +18,11 @@ const MaternalWellness = () => {
             className='w-full md:w-4/5 md:h-[400px]'
           />
         </div>
-        <div className='w-full'>
+        <div className='w-full md:w-4/5'>
           <h2 className='text-gray-900 font-semibold mb-4 text-3xl'>
             Our Mother and Child Health services include:
           </h2>
-          <ul className='list-disc px-6 md:px-16'>
+          <ul className='list-disc px-6 md:px-8'>
             <li>
               <h3 className='text-2xl font-semibold mb-2'>Antenatal Care</h3>
               <p className='text-gray-700 mb-4'>
@@ -33,6 +36,12 @@ const MaternalWellness = () => {
                 pregnancy symptoms and the birth itself and also about caring
                 for your baby after the birth.
               </p>
+              <img
+                src={antenatalCare}
+                alt='Antenatal Care'
+                className='w-full md:h-[400px] object-cover my-2'
+                style={{ objectPosition: "top" }}
+              />
             </li>
             <li>
               <h3 className='text-2xl font-semibold mb-2'>Postnatal Care</h3>
@@ -43,6 +52,12 @@ const MaternalWellness = () => {
                 recovery after birth the health of the baby allowing prompt
                 intervention if needed.
               </p>
+              <img
+                src={postnatalCare}
+                alt='Postnatal Care'
+                className='w-full md:h-[400px] object-cover my-2'
+                style={{ objectPosition: "top" }}
+              />
             </li>
             <li>
               <h3 className='text-2xl font-semibold mb-2'>Well-baby Clinic</h3>
@@ -81,7 +96,13 @@ const MaternalWellness = () => {
           <h3 className='text-3xl font-semibold mt-12 mb-8'>
             Why Choose FemiHub for Maternal Wellness
           </h3>
-          <ul className='px-6 md:px-16 list-disc'>
+          <img
+            src={whyUs}
+            alt='PEP Pills'
+            className='w-full md:h-[250px] object-cover my-2'
+            style={{ objectPosition: "center" }}
+          />
+          <ul className='px-6 md:px-8 list-disc'>
             <li>
               <p className='text-gray-700 mb-4'>
                 <strong>Expert and Compassionate Care:</strong> FemiHub boasts a
