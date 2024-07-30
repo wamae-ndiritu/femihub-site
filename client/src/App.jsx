@@ -3,7 +3,6 @@ import TopNav from './components/TopNav';
 import MainNavbar from './components/Navbar';
 import HeroSwiper from './components/HeroSwiper';
 import SearchContainer from './components/SearchContainer';
-import BestSellingProducts from './components/BestSelling';
 import NewProducts from './components/NewProducts';
 import Footer from './components/Footer';
 import DoctorConsult from './components/DoctorConsult';
@@ -19,12 +18,14 @@ import PEPInfo from './components/PEPInfo';
 import AntenatalInfo from './components/Antenatal';
 import PostnatalInfo from './components/PostnatalInfo';
 import MaternalWellness from './components/MaternalWellness';
+import ProductSection from './components/ProductSection';
+import Search from './components/Search';
 
 const Home = () => (
   <div className='px-2 md:px-[100px] mt-2'>
     <SearchContainer />
     <HeroSwiper />
-    <BestSellingProducts />
+    <ProductSection title='Best Selling Products' />
     <NewProducts />
     <DownloadAppSection />
   </div>
@@ -49,6 +50,7 @@ const App = () => {
         <Route path='/antenatal' element={<AntenatalInfo />} />
         <Route path='/postnatal' element={<PostnatalInfo />} />
         <Route path='/maternal-wellness' element={<MaternalWellness />} />
+        <Route path='/products' element={<Search />} />
       </Routes>
       <ChatbotModal />
       <Footer />

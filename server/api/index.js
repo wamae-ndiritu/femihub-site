@@ -273,12 +273,34 @@ app.post('/products', (req, res) => {
     });
 });
 
-app.get('/products', (req, res) => {
-    const query = 'SELECT * FROM products';
-    db.query(query, (err, results) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json(results);
-    });
+app.get("/products", (req, res) => {
+  const { search, category } = req.query;
+
+  let query = "SELECT * FROM products";
+  let queryParams = [];
+
+  if (search || category) {
+    query += " WHERE";
+  }
+
+  if (search) {
+    query += " name LIKE ?";
+    queryParams.push(`%${search}%`);
+  }
+
+  if (search && category) {
+    query += " AND";
+  }
+
+  if (category) {
+    query += " category_id = ?";
+    queryParams.push(category);
+  }
+
+  db.query(query, queryParams, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
 });
 
 app.put('/products/:id', (req, res) => {

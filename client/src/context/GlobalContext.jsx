@@ -15,6 +15,7 @@ export const GlobalProvider = ({ children }) => {
     const currentUser = localStorage.getItem("userInfo");
     return currentUser ? JSON.parse(currentUser) : null;
   });
+  const [products, setProducts] = useState([]);
 
   // Save cart and userInfo items to localStorage whenever they change
   useEffect(() => {
@@ -78,7 +79,9 @@ export const GlobalProvider = ({ children }) => {
         clearCart,
         user,
         setUser,
-        logout
+        logout,
+        products,
+        setProducts
       }}
     >
       {children}
