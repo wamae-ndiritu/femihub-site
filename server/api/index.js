@@ -507,15 +507,15 @@ app.get('/v1/payments/payment', async (req, res) => {
 
 app.post('/orders', (req, res, next) => {
   const { user_id, products } = req.body;
-  let totalAmount = 0;
-  products.forEach(product => {
-      totalAmount += product.price * product.quantity;
-  });
+  console.log(req.body)
+  const totalAmount = products.reduce((sum, item) => sum + item.price * item.qty, 0).toFixed(2);
+
+  console.log(totalAmount, typeof(totalAmount))
 
   db.beginTransaction((err) => {
       if (err) return next(err);
 
-      const queryOrder = 'INSERT INTO orders (user_id, total_amount) VALUES (?, ?)';
+      const queryOrder = 'INSERT INTO orders (user_id, amount) VALUES (?, ?)';
       db.query(queryOrder, [user_id, totalAmount], (err, result) => {
           if (err) {
               return db.rollback(() => next(err));
@@ -523,7 +523,7 @@ app.post('/orders', (req, res, next) => {
 
           const orderId = result.insertId;
           const queryOrderItems = 'INSERT INTO order_items (order_id, product_id, quantity, price) VALUES ?';
-          const orderItems = products.map(product => [orderId, product.product_id, product.quantity, product.price]);
+          const orderItems = products.map(product => [orderId, product.id, product.quantity, product.price]);
 
           db.query(queryOrderItems, [orderItems], (err, result) => {
               if (err) {

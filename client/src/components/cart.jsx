@@ -4,11 +4,14 @@ import { useGlobalContext } from "../context/GlobalContext";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import axios from "axios";
+import { BASEHOST } from "../use";
+import { toast, ToastContainer } from "react-toastify";
 
 const Cart = ({ isOpen, setIsOpen }) => {
-  const { cartItems, removeItemFromCart, addItemToCart, currentUser } =
+  const { cartItems, removeItemFromCart, addItemToCart, user } =
     useGlobalContext();
   const [totals, setTotals] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (cartItems.length > 0) {
@@ -21,29 +24,39 @@ const Cart = ({ isOpen, setIsOpen }) => {
   }, [cartItems]);
 
   const handleCheckout = async () => {
-    if (!currentUser) {
-      alert("Please log in to proceed with checkout.");
-      return;
-    }
-
+    console.log("Setting loading to true");
+    setLoading(true);
     try {
-      const response = await axios.post("/api/checkout", {
-        userId: currentUser.id,
-        items: cartItems,
+      if (!user) {
+        alert("Please log in to proceed with checkout.");
+        setLoading(false);
+        return;
+      }
+      console.log("started....")
+      console.log(loading)
+      const response = await axios.post(`${BASEHOST}/orders`, {
+        user_id: user?.user.id,
+        products: cartItems,
       });
+      console.log(response)
 
-      if (response.status === 200) {
-        alert("Checkout successful!");
+      if (response.status === 201) {
+        toast.success("Login successful!");
         setIsOpen(false);
         // Clear cart items if needed
-      } else {
-        alert("Checkout failed. Please try again.");
-      }
+      } 
     } catch (error) {
-      console.error("Checkout error:", error);
-      alert("An error occurred during checkout. Please try again.");
+      console.log(error)
+      const message = error?.response
+        ? error?.response?.data?.error
+        : error?.message;
+      toast.error(message);
+    } finally{
+      setLoading(false);
     }
   };
+
+  console.log(loading)
 
   if (!isOpen) return null;
 
@@ -149,8 +162,9 @@ const Cart = ({ isOpen, setIsOpen }) => {
                     <button
                       onClick={handleCheckout}
                       className='w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-[#E4258F] hover:bg-[#C01F7E]'
+                      disabled={loading}
                     >
-                      Checkout
+                      {isOpen && loading ? "Processing request..." : "Checkout"}
                     </button>
                   </div>
                   <div className='mt-6 flex justify-center text-sm text-center text-gray-500'>
