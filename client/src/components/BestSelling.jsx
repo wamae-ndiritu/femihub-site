@@ -3,7 +3,7 @@ import axios from "axios";
 import { BASEHOST } from "../use";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { useCart } from "../context/CartContext";
+import { useGlobalContext} from "../context/GlobalContext";
 
 const Product = ({
     id,
@@ -14,7 +14,7 @@ const Product = ({
     description,
 }) => {
     const { cartItems, addItemToCart } =
-      useCart();
+      useGlobalContext();
 
     const handleAddToCart = () => {
         addItemToCart({ id, name, image, description, price });

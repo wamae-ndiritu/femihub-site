@@ -70,8 +70,11 @@ export default function Signup() {
       })
       
       .catch((error) => {
-        console.log(error);
-        toast.error("Signup failed. Please try again.");
+        console.log(error)
+         const message = error?.response
+           ? error?.response?.data?.error
+           : error?.message;
+         toast.error(message);
       })
       .finally(() => {
         setLoading(false);

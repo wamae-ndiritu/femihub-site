@@ -3,11 +3,11 @@ import vitaminbottle from "../assets/vitaminbottle.png";
 import supplement from "../assets/supplement.png";
 import { BASEHOST } from "../use";
 import axios from "axios";
-import { useCart } from "../context/CartContext";
+import { useGlobalContext } from "../context/GlobalContext";
 import { CiShoppingCart } from "react-icons/ci";
 
 const ProductCard = ({ id, image, category, name, price, description }) => {
-  const { addItemToCart } = useCart();
+  const { addItemToCart } = useGlobalContext();
 
   const handleAddToCart = () => {
     addItemToCart({ id, name, image, description, price });

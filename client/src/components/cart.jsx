@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
-import { useCart } from "../context/CartContext";
+import { useGlobalContext } from "../context/GlobalContext";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import axios from "axios";
 
 const Cart = ({ isOpen, setIsOpen }) => {
-  const { cartItems, removeItemFromCart, addItemToCart } = useCart();
+  const { cartItems, removeItemFromCart, addItemToCart, currentUser } =
+    useGlobalContext();
   const [totals, setTotals] = useState(0);
 
   useEffect(() => {
@@ -17,6 +19,31 @@ const Cart = ({ isOpen, setIsOpen }) => {
       setTotals(total);
     }
   }, [cartItems]);
+
+  const handleCheckout = async () => {
+    if (!currentUser) {
+      alert("Please log in to proceed with checkout.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("/api/checkout", {
+        userId: currentUser.id,
+        items: cartItems,
+      });
+
+      if (response.status === 200) {
+        alert("Checkout successful!");
+        setIsOpen(false);
+        // Clear cart items if needed
+      } else {
+        alert("Checkout failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      alert("An error occurred during checkout. Please try again.");
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -119,12 +146,12 @@ const Cart = ({ isOpen, setIsOpen }) => {
                     Shipping and taxes calculated at checkout.
                   </p>
                   <div className='mt-6'>
-                    <a
-                      href='#'
-                      className='flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-[#E4258F] hover:bg-[#C01F7E]'
+                    <button
+                      onClick={handleCheckout}
+                      className='w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-[#E4258F] hover:bg-[#C01F7E]'
                     >
                       Checkout
-                    </a>
+                    </button>
                   </div>
                   <div className='mt-6 flex justify-center text-sm text-center text-gray-500'>
                     <p>

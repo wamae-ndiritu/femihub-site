@@ -1,21 +1,29 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-const CartContext = createContext();
+const Context = createContext();
 
-export const useCart = () => useContext(CartContext);
+export const useGlobalContext = () => useContext(Context);
 
 // Provider component
-export const CartProvider = ({ children }) => {
+export const GlobalProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(() => {
     // Load cart items from localStorage if available
     const savedCartItems = localStorage.getItem("cartItems");
     return savedCartItems ? JSON.parse(savedCartItems) : [];
   });
+  const [user, setUser] = useState(() => {
+    const currentUser = localStorage.getItem("userInfo");
+    return currentUser ? JSON.parse(currentUser) : null;
+  });
 
+  // Save cart and userInfo items to localStorage whenever they change
   useEffect(() => {
-    // Save cart items to localStorage whenever they change
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
+
+  useEffect(() => {
+    localStorage.setItem("userInfo", JSON.stringify(user));
+  }, [user]);
 
   const addItemToCart = (item) => {
     setCartItems((prevItems) => {
@@ -34,12 +42,12 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const removeItemFromCart = (itemId, type="") => {
-    if (type === "all"){
+  const removeItemFromCart = (itemId, type = "") => {
+    if (type === "all") {
       setCartItems((prevItems) => {
-          return prevItems.filter((item) => item.id !== itemId);
+        return prevItems.filter((item) => item.id !== itemId);
       });
-    }else{
+    } else {
       setCartItems((prevItems) => {
         const existingItem = prevItems.find((item) => item.id === itemId);
         if (existingItem.qty === 1) {
@@ -57,11 +65,23 @@ export const CartProvider = ({ children }) => {
     setCartItems([]);
   };
 
+  const logout = () => {
+    setUser(null);
+  }
+
   return (
-    <CartContext.Provider
-      value={{ cartItems, addItemToCart, removeItemFromCart, clearCart }}
+    <Context.Provider
+      value={{
+        cartItems,
+        addItemToCart,
+        removeItemFromCart,
+        clearCart,
+        user,
+        setUser,
+        logout
+      }}
     >
       {children}
-    </CartContext.Provider>
+    </Context.Provider>
   );
 };

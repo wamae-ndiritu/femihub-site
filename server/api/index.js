@@ -138,7 +138,7 @@ app.post('/login', (req, res) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) return res.status(400).json({ error: 'Invalid password' });
         const token = jwt.sign({ id: user.id }, 'your_jwt_secret', { expiresIn: '1h' });
-        res.json({ token ,  user: { id: user.id, email: user.email, ...otherUserDetails } });
+        res.json({ token ,  user: { id: user.id, email: user.email, name: user.name} });
     });
 });
 

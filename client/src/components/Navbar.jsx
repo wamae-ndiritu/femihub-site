@@ -3,9 +3,9 @@ import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 import { CiHeart, CiShoppingCart } from "react-icons/ci";
 import Cart from "./cart";
 import { Link } from "react-router-dom";
-import { useCart } from "../context/CartContext";
+import { useGlobalContext } from "../context/GlobalContext";
 const Navbar = () => {
-  const {cartItems} = useCart();
+  const {cartItems} = useGlobalContext();
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileCartModalOpen, setIsMobileCartOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
