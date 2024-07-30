@@ -1,560 +1,455 @@
-Here's a detailed documentation for each endpoint, including the URL, sample request body, and expected response:
+Certainly! Here's the revised documentation with sample request bodies:
 
-### 1. **User Registration**
-- **URL**: `/register`
-- **Method**: POST
-- **Request Body**:
-  ```json
-  {
-      "name": "John Doe",
-      "email": "john.doe@example.com",
+---
+
+## API Documentation
+
+### Base URL
+```
+http://localhost:3000
+```
+
+### Authentication & Authorization
+
+#### Google Authentication
+
+- **GET /auth/google**
+  - **Description:** Redirects to Google OAuth for authentication.
+  - **Scope:** `profile`, `email`
+
+- **GET /auth/google/callback**
+  - **Description:** Handles Google OAuth callback and returns user info.
+
+#### Register a User
+
+- **POST /register**
+  - **Description:** Registers a new user.
+  - **Request Body:**
+    ```json
+    {
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
       "phone_number": "+1234567890",
-      "password": "password123"
-  }
-  ```
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "message": "User registered successfully"
+      "password": "securepassword123"
     }
     ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+  - **Responses:**
+    - `201 Created`: User registered successfully.
+    - `400 Bad Request`: Password is required.
+    - `500 Internal Server Error`: Error hashing password.
 
-### 2. **User Login**
-- **URL**: `/login`
-- **Method**: POST
-- **Request Body**:
-  ```json
-  {
-      "email": "john.doe@example.com",
-      "password": "password123"
-  }
-  ```
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "token": "jwt_token_here"
-    }
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+#### Login
 
-### 3. **Google Authentication**
-- **URL**: `/auth/google`
-- **Method**: GET
-- **Response**:
-  - **Success**: user authenticated
-  - **Failure**: returns an error message
-
-### 4. **Google Authentication Callback**
-- **URL**: `/auth/google/callback`
-- **Method**: GET
-- **Response**:
-  - **Success**:
+- **POST /login**
+  - **Description:** Authenticates a user and returns a JWT token.
+  - **Request Body:**
     ```json
     {
-        "message": "User authenticated"
+      "email": "janedoe@example.com",
+      "password": "securepassword123"
     }
     ```
-  - **Failure**:
+  - **Responses:**
+    - `200 OK`: Returns JWT token and user details.
+    - `400 Bad Request`: User not found or invalid password.
+    - `500 Internal Server Error`: Error during authentication.
+
+#### Logout
+
+- **POST /logout**
+  - **Description:** Logs out the user and destroys the session.
+  - **Responses:**
+    - `200 OK`: Logged out successfully.
+
+### Doctor Management
+
+#### Create a Doctor
+
+- **POST /doctors**
+  - **Description:** Registers a new doctor.
+  - **Request Body:**
     ```json
     {
-        "error": "Error message"
+      "name": "Dr. John Smith",
+      "specialty": "Cardiologist",
+      "email": "drjohnsmith@example.com",
+      "phone_number": "+1234567890"
     }
     ```
+  - **Responses:**
+    - `201 Created`: Doctor registered successfully.
+    - `500 Internal Server Error`: Error during registration.
 
-### 5. **Apple Authentication**
-- **URL**: `/auth/apple`
-- **Method**: POST
-- **Request Body**:
-  ```json
-  {
-      "id_token": "apple_id_token_here"
-  }
-  ```
-- **Response**:
-  - **Success**: Redirects or returns a success message
-  - **Failure**:
+#### List Doctors
+
+- **GET /doctors**
+  - **Description:** Retrieves a list of all doctors.
+  - **Responses:**
+    - `200 OK`: Returns list of doctors.
+    - `500 Internal Server Error`: Error retrieving data.
+
+#### Update a Doctor
+
+- **PUT /doctors/:id**
+  - **Description:** Updates doctor details.
+  - **Request Parameters:**
+    - `id`: Doctor ID.
+  - **Request Body:**
     ```json
     {
-        "error": "Error message"
-    }
-    ```
-
-### 6. **Doctor Registration (CRUD)**
-- **URL**: `/doctors`
-- **Method**: POST
-- **Request Body**:
-  ```json
-  {
-      "name": "Dr. Alice Smith",
-      "specialty": "Obstetrics",
-      "email": "alice.smith@example.com",
+      "name": "Dr. John Smith",
+      "specialty": "Cardiologist",
+      "email": "drjohnsmith@example.com",
       "phone_number": "+0987654321"
-  }
-  ```
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "message": "Doctor registered successfully"
     }
     ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+  - **Responses:**
+    - `200 OK`: Doctor updated successfully.
+    - `500 Internal Server Error`: Error updating doctor.
 
-### 7. **Get Doctors**
-- **URL**: `/doctors`
-- **Method**: GET
-- **Response**:
-  - **Success**:
-    ```json
-    [
-        {
-            "id": 1,
-            "name": "Dr. Alice Smith",
-            "specialty": "Obstetrics",
-            "email": "alice.smith@example.com",
-            "phone_number": "+0987654321"
-        }
-    ]
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+#### Delete a Doctor
 
-### 8. **Update Doctor**
-- **URL**: `/doctors/:id`
-- **Method**: PUT
-- **Request Body**:
-  ```json
-  {
-      "name": "Dr. Alice Johnson",
-      "specialty": "Gynecology",
-      "email": "alice.johnson@example.com",
-      "phone_number": "+0987654321"
-  }
-  ```
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "message": "Doctor updated successfully"
-    }
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+- **DELETE /doctors/:id**
+  - **Description:** Deletes a doctor.
+  - **Request Parameters:**
+    - `id`: Doctor ID.
+  - **Responses:**
+    - `200 OK`: Doctor deleted successfully.
+    - `500 Internal Server Error`: Error deleting doctor.
 
-### 9. **Delete Doctor**
-- **URL**: `/doctors/:id`
-- **Method**: DELETE
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "message": "Doctor deleted successfully"
-    }
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+### Community Forum
 
-### 10. **Community Forum - Get Posts**
-- **URL**: `/forum_posts`
-- **Method**: GET
-- **Response**:
-  - **Success**:
-    ```json
-    [
-        {
-            "id": 1,
-            "user_id": 1,
-            "title": "Pregnancy Tips",
-            "content": "Some useful tips for pregnancy..."
-        }
-    ]
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+#### List Forum Posts
 
-### 11. **Community Forum - Create Post**
-- **URL**: `/forum_posts`
-- **Method**: POST
-- **Request Body**:
-  ```json
-  {
-      "user_id": 1,
-      "title": "Pregnancy Tips",
-      "content": "Some useful tips for pregnancy..."
-  }
-  ```
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "message": "Post created successfully"
-    }
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+- **GET /forum_posts**
+  - **Description:** Retrieves a list of all forum posts.
+  - **Responses:**
+    - `200 OK`: Returns list of forum posts.
+    - `500 Internal Server Error`: Error retrieving posts.
 
-### 12. **Articles - Create Article**
-- **URL**: `/articles`
-- **Method**: POST
-- **Request Body**:
-  ```json
-  {
-      "title": "Pregnancy Nutrition",
-      "content": "Information about nutrition during pregnancy...",
-      "author_id": 1
-  }
-  ```
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "message": "Article created successfully"
-    }
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+#### Create a Forum Post
 
-### 13. **Articles - Get Articles**
-- **URL**: `/articles`
-- **Method**: GET
-- **Response**:
-  - **Success**:
-    ```json
-    [
-        {
-            "id": 1,
-            "title": "Pregnancy Nutrition",
-            "content": "Information about nutrition during pregnancy...",
-            "author_id": 1
-        }
-    ]
-    ```
-  - **Error**:
+- **POST /forum_posts**
+  - **Description:** Creates a new forum post.
+  - **Request Body:**
     ```json
     {
-        "error": "Error message"
+      "user_id": "user123",
+      "title": "Healthy Eating Tips",
+      "content": "Here are some tips for healthy eating..."
     }
     ```
+  - **Responses:**
+    - `201 Created`: Post created successfully.
+    - `500 Internal Server Error`: Error creating post.
 
-### 14. **Articles - Update Article**
-- **URL**: `/articles/:id`
-- **Method**: PUT
-- **Request Body**:
-  ```json
-  {
-      "title": "Updated Title",
-      "content": "Updated content here..."
-  }
-  ```
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "message": "Article updated successfully"
-    }
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+### Articles Management
 
-### 15. **Articles - Delete Article**
-- **URL**: `/articles/:id`
-- **Method**: DELETE
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "message": "Article deleted successfully"
-    }
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+#### Create an Article
 
-### 16. **Products - Create Product**
-- **URL**: `/products`
-- **Method**: POST
-- **Request Body**:
-  ```json
-  {
-      "name": "Pregnancy Supplement",
-      "description": "A supplement for pregnant women",
-      "price": 29.99
-  }
-  ```
-- **Response**:
-  - **Success**:
+- **POST /articles**
+  - **Description:** Creates a new article.
+  - **Request Body:**
     ```json
     {
-        "message": "Product created successfully"
+      "title": "The Importance of Regular Exercise",
+      "content": "Regular exercise is crucial for maintaining good health...",
+      "author_id": "author123"
     }
     ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+  - **Responses:**
+    - `201 Created`: Article created successfully.
+    - `500 Internal Server Error`: Error creating article.
 
-### 17. **Products - Get Products**
-- **URL**: `/products`
-- **Method**: GET
-- **Response**:
-  - **Success**:
-    ```json
-    [
-        {
-            "id": 1,
-            "name": "Pregnancy Supplement",
-            "description": "A supplement for pregnant women",
-            "price": 29.99
-        }
-    ]
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+#### List Articles
 
-### 18. **Products - Update Product**
-- **URL**: `/products/:id`
-- **Method**: PUT
-- **Request Body**:
-  ```json
-  {
-      "name": "Updated Product",
-      "description": "Updated description",
-      "price": 35.99
-  }
-  ```
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "message": "Product updated successfully"
-    }
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+- **GET /articles**
+  - **Description:** Retrieves a list of all articles.
+  - **Responses:**
+    - `200 OK`: Returns list of articles.
+    - `500 Internal Server Error`: Error retrieving articles.
 
-### 19. **Products - Delete Product**
-- **URL**: `/products/:id`
-- **Method**: DELETE
-- **Response
+#### Update an Article
 
-**:
-  - **Success**:
+- **PUT /articles/:id**
+  - **Description:** Updates an article.
+  - **Request Parameters:**
+    - `id`: Article ID.
+  - **Request Body:**
     ```json
     {
-        "message": "Product deleted successfully"
+      "title": "The Benefits of Yoga",
+      "content": "Yoga offers numerous benefits for both mind and body..."
     }
     ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+  - **Responses:**
+    - `200 OK`: Article updated successfully.
+    - `500 Internal Server Error`: Error updating article.
 
-### 20. **Add to Cart**
-- **URL**: `/cart`
-- **Method**: POST
-- **Request Body**:
-  ```json
-  {
-      "user_id": 1,
-      "product_id": 2,
-      "quantity": 1
-  }
-  ```
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "message": "Product added to cart successfully"
-    }
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+#### Delete an Article
 
-### 21. **Get Cart Items**
-- **URL**: `/cart/:user_id`
-- **Method**: GET
-- **Response**:
-  - **Success**:
-    ```json
-    [
-        {
-            "user_id": 1,
-            "product_id": 2,
-            "quantity": 1
-        }
-    ]
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+- **DELETE /articles/:id**
+  - **Description:** Deletes an article.
+  - **Request Parameters:**
+    - `id`: Article ID.
+  - **Responses:**
+    - `200 OK`: Article deleted successfully.
+    - `500 Internal Server Error`: Error deleting article.
 
-### 22. **Remove from Cart**
-- **URL**: `/cart/:user_id/:product_id`
-- **Method**: DELETE
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "message": "Product removed from cart successfully"
-    }
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+### Product Management
 
-### 23. **Logout**
-- **URL**: `/logout`
-- **Method**: POST
-- **Response**:
-  - **Success**:
-    ```json
-    {
-        "message": "User logged out successfully"
-    }
-    ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+#### Create a Product
 
-### 24. **Chat - Send Message**
-- **URL**: `/chats`
-- **Method**: POST
-- **Request Body**:
-  ```json
-  {
-      "sender_id": 1,
-      "receiver_id": 2,
-      "message": "Hello!"
-  }
-  ```
-- **Response**:
-  - **Success**:
+- **POST /products**
+  - **Description:** Creates a new product.
+  - **Request Body:**
     ```json
     {
-        "message": "Message sent successfully"
+      "name": "Prenatal Vitamins",
+      "price": 29.99,
+      "description": "High-quality prenatal vitamins for expecting mothers."
     }
     ```
-  - **Error**:
-    ```json
-    {
-        "error": "Error message"
-    }
-    ```
+  - **Responses:**
+    - `201 Created`: Product created successfully.
+    - `500 Internal Server Error`: Error creating product.
 
-### 25. **Chat - Get Messages**
-- **URL**: `/chats/:user_id`
-- **Method**: GET
-- **Response**:
-  - **Success**:
-    ```json
-    [
-        {
-            "sender_id": 1,
-            "receiver_id": 2,
-            "message": "Hello!",
-            "timestamp": "2024-07-23T10:00:00Z"
-        }
-    ]
-    ```
-  - **Error**:
+#### List Products
+
+- **GET /products**
+  - **Description:** Retrieves a list of all products.
+  - **Responses:**
+    - `200 OK`: Returns list of products.
+    - `500 Internal Server Error`: Error retrieving products.
+
+#### Update a Product
+
+- **PUT /products/:id**
+  - **Description:** Updates a product.
+  - **Request Parameters:**
+    - `id`: Product ID.
+  - **Request Body:**
     ```json
     {
-        "error": "Error message"
+      "name": "Prenatal Vitamins - Advanced Formula",
+      "price": 34.99,
+      "description": "Advanced formula for optimal prenatal health."
     }
     ```
+  - **Responses:**
+    - `200 OK`: Product updated successfully.
+    - `500 Internal Server Error`: Error updating product.
 
-### 26. **Recommendations**
-- **URL**: `/recommendations`
-- **Method**: GET
-- **Response**:
-  - **Success**:
-    ```json
-    [
-        {
-            "product_id": 1,
-            "reason": "Recommended for your pregnancy stage"
-        }
-    ]
-    ```
-  - **Error**:
+#### Delete a Product
+
+- **DELETE /products/:id**
+  - **Description:** Deletes a product.
+  - **Request Parameters:**
+    - `id`: Product ID.
+  - **Responses:**
+    - `200 OK`: Product deleted successfully.
+    - `500 Internal Server Error`: Error deleting product.
+
+### Subscription Management
+
+#### Create a Subscription
+
+- **POST /subscriptions**
+  - **Description:** Creates a new subscription.
+  - **Request Body:**
     ```json
     {
-        "error": "Error message"
+      "user_id": "user123",
+      "product_id": "product123",
+      "start_date": "2024-07-01",
+      "end_date": "2024-12-31"
     }
     ```
+  - **Responses:**
+    - `201 Created`: Subscription created successfully.
+    - `500 Internal Server Error`: Error creating subscription.
 
-This documentation should help you implement and test endpoints effectively.
+#### List Subscriptions
+
+- **GET /subscriptions**
+  - **Description:** Retrieves a list of all subscriptions.
+  - **Responses:**
+    - `200 OK`: Returns list of subscriptions.
+    - `500 Internal Server Error`: Error retrieving subscriptions.
+
+#### Update a Subscription
+
+- **PUT /subscriptions/:id**
+  - **Description:** Updates a subscription.
+  - **Request Parameters:**
+    - `id`: Subscription ID.
+  - **Request Body:**
+    ```json
+    {
+      "start_date": "2024-07-01",
+      "end_date": "2025-06-30"
+    }
+    ```
+  - **Responses:**
+    - `200 OK`: Subscription updated successfully.
+    - `500 Internal Server Error`: Error updating subscription.
+
+#### Delete a Subscription
+
+- **DELETE /subscriptions/:id**
+  - **Description:** Deletes a subscription.
+  - **Request Parameters:**
+    - `id`: Subscription ID.
+  - **Responses:**
+    - `200 OK`: Subscription deleted successfully.
+    - `500 Internal Server Error`: Error deleting subscription.
+
+### Experience Sharing
+
+#### Share an Experience
+
+- **POST /experiences**
+  - **Description:** Shares a new experience.
+  - **Request Body:**
+    ```json
+    {
+      "user_id": "user123",
+      "title": "My Pregnancy Journey",
+      "content": "Sharing my personal experiences and tips during pregnancy..."
+    }
+    ```
+  - **Responses:**
+    - `201 Created`: Experience shared successfully.
+    - `500 Internal Server Error`: Error sharing experience.
+
+#### List Experiences
+
+- **GET /experiences**
+  - **Description:** Retrieves a list of all experiences.
+  - **Responses:**
+    - `200 OK`: Returns list of experiences.
+    - `500 Internal Server Error`: Error retrieving experiences.
+
+### Period Tracking
+
+#### Track a Period
+
+- **POST /periods**
+  - **Description:** Tracks a
+
+ new period.
+  - **Request Body:**
+    ```json
+    {
+      "user_id": "user123",
+      "start_date": "2024-07-01",
+      "end_date": "2024-07-05"
+    }
+    ```
+  - **Responses:**
+    - `201 Created`: Period tracked successfully.
+    - `500 Internal Server Error`: Error tracking period.
+
+#### List Periods
+
+- **GET /periods**
+  - **Description:** Retrieves a list of all tracked periods.
+  - **Responses:**
+    - `200 OK`: Returns list of periods.
+    - `500 Internal Server Error`: Error retrieving periods.
+
+### Payments
+
+#### Process a Payment
+
+- **POST /payments**
+  - **Description:** Processes a payment.
+  - **Request Body:**
+    ```json
+    {
+      "user_id": "user123",
+      "amount": 50.00,
+      "description": "Payment for premium subscription"
+    }
+    ```
+  - **Responses:**
+    - `201 Created`: Payment processed successfully.
+    - `500 Internal Server Error`: Error processing payment.
+
+#### List Payments
+
+- **GET /payments**
+  - **Description:** Retrieves a list of all payments.
+  - **Responses:**
+    - `200 OK`: Returns list of payments.
+    - `500 Internal Server Error`: Error retrieving payments.
+
+### Chat Management
+
+#### Send a Message
+
+- **POST /chats**
+  - **Description:** Sends a new chat message.
+  - **Request Body:**
+    ```json
+    {
+      "sender_id": "user123",
+      "receiver_id": "user456",
+      "message": "Hello, how are you?"
+    }
+    ```
+  - **Responses:**
+    - `201 Created`: Message sent successfully.
+    - `500 Internal Server Error`: Error sending message.
+
+#### List Messages
+
+- **GET /chats/:user_id**
+  - **Description:** Retrieves chat messages for a user.
+  - **Request Parameters:**
+    - `user_id`: User ID.
+  - **Responses:**
+    - `200 OK`: Returns list of messages.
+    - `500 Internal Server Error`: Error retrieving messages.
+
+### Recommendations
+
+#### Get Recommendations
+
+- **GET /recommendations/:user_id**
+  - **Description:** Retrieves recommendations for a user.
+  - **Request Parameters:**
+    - `user_id`: User ID.
+  - **Responses:**
+    - `200 OK`: Returns list of recommendations.
+    - `500 Internal Server Error`: Error retrieving recommendations.
+
+### Reminders
+
+#### Create a Reminder
+
+- **POST /reminders**
+  - **Description:** Creates a new reminder.
+  - **Request Body:**
+    ```json
+    {
+      "user_id": "user123",
+      "title": "Doctor's Appointment",
+      "date": "2024-08-15T10:00:00Z"
+    }
+    ```
+  - **Responses:**
+    - `201 Created`: Reminder created successfully.
+    - `500 Internal Server Error`: Error creating reminder.
+
+#### List Reminders
+
+- **GET /reminders**
+  - **Description:** Retrieves a list of all reminders.
+  - **Responses:**
+    - `200 OK`: Returns list of reminders.
+    - `500 Internal Server Error`: Error retrieving reminders.
+
+---
+
+Let me know if you need any more adjustments!
