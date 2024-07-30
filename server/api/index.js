@@ -541,7 +541,6 @@ app.post('/orders', (req, res, next) => {
   });
 });
 
-
 app.get('/orders', (req, res, next) => {
     const query = 'SELECT * FROM orders';
     db.query(query, (err, results) => {
