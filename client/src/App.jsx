@@ -21,6 +21,7 @@ import MaternalWellness from './components/MaternalWellness';
 import ProductSection from './components/ProductSection';
 import Search from './components/Search';
 import { ToastContainer } from 'react-toastify';
+import ProductViewPage from './components/ProductView';
 
 const Home = () => (
   <div className='px-2 md:px-[100px] mt-2'>
@@ -52,6 +53,7 @@ const App = () => {
         <Route path='/postnatal' element={<PostnatalInfo />} />
         <Route path='/maternal-wellness' element={<MaternalWellness />} />
         <Route path='/products' element={<Search />} />
+        <Route path='/products/:id' element={<ProductViewPage />} />
       </Routes>
       <ChatbotModal />
       <Footer />

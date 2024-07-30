@@ -303,6 +303,17 @@ app.get("/products", (req, res) => {
   });
 });
 
+app.get("/products/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT * FROM products WHERE id = ?";
+  db.query(query, [id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (result.length === 0)
+      return res.status(404).json({ message: "Product not found" });
+    res.json(result[0]);
+  });
+});
+
 app.put('/products/:id', (req, res) => {
     const { id } = req.params;
     const { name, price, description } = req.body;
@@ -551,7 +562,7 @@ app.post('/orders', (req, res, next) => {
   
         const orderId = result.insertId;
         const queryOrderItems = 'INSERT INTO order_items (order_id, product_id, quantity, price) VALUES ?';
-        const orderItems = products.map(product => [orderId, product.id, product.quantity, product.price]);
+        const orderItems = products.map(product => [orderId, product.id, product.qty, product.price]);
   
         db.query(queryOrderItems, [orderItems], (err, result) => {
           if (err) {

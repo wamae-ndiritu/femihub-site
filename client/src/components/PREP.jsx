@@ -1,6 +1,7 @@
 import React from "react";
 import mylan from "../assets/mylan.jpeg";
 import sureCheck from "../assets/sure-check.jpeg";
+import { Link } from "react-router-dom";
 
 const PREP = () => {
   return (
@@ -83,9 +84,9 @@ const PREP = () => {
               to be used by untrained lay users in a private setting as a
               self-test to aid in the diagnosis of HIV. It gives results within
               15 minutes. You can click on this{" "}
-              <a href='#' className='text-custom-pink underline'>
+              <Link to={`/products/18`} className='text-custom-pink underline'>
                 link
-              </a>{" "}
+              </Link>{" "}
               to order your Mylan HIV self-test kit.
             </p>
             <div className='w-full relative mt-4'>
@@ -100,9 +101,9 @@ const PREP = () => {
               intended to be used by untrained lay users in a private setting as
               a self-test to aid in the diagnosis of HIV. It gives results
               within 15 minutes. You can click on this{" "}
-              <a href='#' className='text-custom-pink underline'>
+              <Link to={`/products/19`} className='text-custom-pink underline'>
                 link
-              </a>{" "}
+              </Link>{" "}
               to order your SureCheck HIV self-test kit.
             </p>
             <div className='w-full flex justify-center'>
