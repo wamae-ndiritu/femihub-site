@@ -78,11 +78,12 @@ passport.deserializeUser((user, done) => {
 
 // MySQL connection
 const db = mysql.createConnection({
-    host: '45.56.98.224',
-    user: 'femihub_femihub',
-    password:'$6H-ksQ,M&)*', 
-    database: 'femihub_femihub_db'
-});
+    host: DBHOST,
+    user: DBUSER,
+    password: PASSWORD,
+    database: DATABASE,
+    port: 3306,
+  });
 
 
 db.connect((err) => {
