@@ -1,20 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiSearch, HiChevronDown } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { listCategories } from "../lib/apiCalls";
 
 const SearchContainer = () => {
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [selectedCatId, setSelectedCatId] = useState("All Categories");
   const [keyword, setKeyword] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const categories = ["All Categories", "Maternal Products", "Baby Products"];
+  const [categories, setCategories] = useState([{id: '', name: "All Categories"}]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (keyword || selectedCategory){
-      navigate(`/products?search=${keyword.trim().replace(' ', '-')}&catId=${selectedCategory}`);
+    if (keyword || selectedCatId){
+      navigate(`/products?search=${keyword.trim().replace(' ', '-')}&catId=${selectedCatId}`);
     }
   };
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categories = await listCategories();
+        setCategories(categories.filter((cat) => cat.id !== 4));
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+
+    fetchCategories();
+  }, [])
 
   return (
     <div className='my-2  mx-auto '>
@@ -30,17 +45,18 @@ const SearchContainer = () => {
           {isDropdownOpen && (
             <div className='absolute z-10 w-full sm:w-48 mt-1 bg-white rounded-md shadow-lg'>
               {categories.map((category) => (
-                <a // Added the missing opening tag here
-                  key={category}
+                <a 
+                  key={category.id}
                   href='#'
                   className='block px-4 py-2 text-sm text-gray-700 hover:bg-[#E4258F] hover:text-white'
                   onClick={(e) => {
                     e.preventDefault();
-                    setSelectedCategory(category);
+                    setSelectedCategory(category.name);
+                    setSelectedCatId(category.id);
                     setIsDropdownOpen(false);
                   }}
                 >
-                  {category}
+                  {category.name}
                 </a>
               ))}
             </div>
