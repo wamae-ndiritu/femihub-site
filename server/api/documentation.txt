@@ -1,3 +1,5 @@
+Certainly! Here's the revised documentation with sample request bodies:
+
 ---
 
 ## API Documentation
@@ -25,10 +27,10 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "name": "string",
-      "email": "string",
-      "phone_number": "string",
-      "password": "string"
+      "name": "Jane Doe",
+      "email": "janedoe@example.com",
+      "phone_number": "+1234567890",
+      "password": "securepassword123"
     }
     ```
   - **Responses:**
@@ -43,8 +45,8 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "email": "string",
-      "password": "string"
+      "email": "janedoe@example.com",
+      "password": "securepassword123"
     }
     ```
   - **Responses:**
@@ -68,10 +70,10 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "name": "string",
-      "specialty": "string",
-      "email": "string",
-      "phone_number": "string"
+      "name": "Dr. John Smith",
+      "specialty": "Cardiologist",
+      "email": "drjohnsmith@example.com",
+      "phone_number": "+1234567890"
     }
     ```
   - **Responses:**
@@ -95,10 +97,10 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "name": "string",
-      "specialty": "string",
-      "email": "string",
-      "phone_number": "string"
+      "name": "Dr. John Smith",
+      "specialty": "Cardiologist",
+      "email": "drjohnsmith@example.com",
+      "phone_number": "+0987654321"
     }
     ```
   - **Responses:**
@@ -132,9 +134,9 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "user_id": "string",
-      "title": "string",
-      "content": "string"
+      "user_id": "user123",
+      "title": "Healthy Eating Tips",
+      "content": "Here are some tips for healthy eating..."
     }
     ```
   - **Responses:**
@@ -150,9 +152,9 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "title": "string",
-      "content": "string",
-      "author_id": "string"
+      "title": "The Importance of Regular Exercise",
+      "content": "Regular exercise is crucial for maintaining good health...",
+      "author_id": "author123"
     }
     ```
   - **Responses:**
@@ -176,8 +178,8 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "title": "string",
-      "content": "string"
+      "title": "The Benefits of Yoga",
+      "content": "Yoga offers numerous benefits for both mind and body..."
     }
     ```
   - **Responses:**
@@ -203,9 +205,9 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "name": "string",
-      "price": "number",
-      "description": "string"
+      "name": "Prenatal Vitamins",
+      "price": 29.99,
+      "description": "High-quality prenatal vitamins for expecting mothers."
     }
     ```
   - **Responses:**
@@ -229,9 +231,9 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "name": "string",
-      "price": "number",
-      "description": "string"
+      "name": "Prenatal Vitamins - Advanced Formula",
+      "price": 34.99,
+      "description": "Advanced formula for optimal prenatal health."
     }
     ```
   - **Responses:**
@@ -257,10 +259,10 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "user_id": "string",
-      "product_id": "string",
-      "start_date": "string",
-      "end_date": "string"
+      "user_id": "user123",
+      "product_id": "product123",
+      "start_date": "2024-07-01",
+      "end_date": "2024-12-31"
     }
     ```
   - **Responses:**
@@ -284,8 +286,8 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "start_date": "string",
-      "end_date": "string"
+      "start_date": "2024-07-01",
+      "end_date": "2025-06-30"
     }
     ```
   - **Responses:**
@@ -311,9 +313,9 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "user_id": "string",
-      "title": "string",
-      "content": "string"
+      "user_id": "user123",
+      "title": "My Pregnancy Journey",
+      "content": "Sharing my personal experiences and tips during pregnancy..."
     }
     ```
   - **Responses:**
@@ -333,13 +335,15 @@ http://localhost:3000
 #### Track a Period
 
 - **POST /periods**
-  - **Description:** Tracks a menstrual period.
+  - **Description:** Tracks a
+
+ new period.
   - **Request Body:**
     ```json
     {
-      "user_id": "string",
-      "start_date": "string",
-      "end_date": "string"
+      "user_id": "user123",
+      "start_date": "2024-07-01",
+      "end_date": "2024-07-05"
     }
     ```
   - **Responses:**
@@ -356,8 +360,6 @@ http://localhost:3000
 
 ### Payments
 
-
-
 #### Process a Payment
 
 - **POST /payments**
@@ -365,9 +367,9 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "user_id": "string",
-      "amount": "number",
-      "description": "string"
+      "user_id": "user123",
+      "amount": 50.00,
+      "description": "Payment for premium subscription"
     }
     ```
   - **Responses:**
@@ -391,9 +393,9 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "sender_id": "string",
-      "receiver_id": "string",
-      "message": "string"
+      "sender_id": "user123",
+      "receiver_id": "user456",
+      "message": "Hello, how are you?"
     }
     ```
   - **Responses:**
@@ -431,9 +433,9 @@ http://localhost:3000
   - **Request Body:**
     ```json
     {
-      "user_id": "string",
-      "title": "string",
-      "date": "string"
+      "user_id": "user123",
+      "title": "Doctor's Appointment",
+      "date": "2024-08-15T10:00:00Z"
     }
     ```
   - **Responses:**
@@ -450,3 +452,4 @@ http://localhost:3000
 
 ---
 
+Let me know if you need any more adjustments!
