@@ -34,9 +34,23 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-
-  const removeItemFromCart = (itemId) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+  const removeItemFromCart = (itemId, type="") => {
+    if (type === "all"){
+      setCartItems((prevItems) => {
+          return prevItems.filter((item) => item.id !== itemId);
+      });
+    }else{
+      setCartItems((prevItems) => {
+        const existingItem = prevItems.find((item) => item.id === itemId);
+        if (existingItem.qty === 1) {
+          return prevItems.filter((item) => item.id !== itemId);
+        } else {
+          return prevItems.map((item) =>
+            item.id === itemId ? { ...item, qty: item.qty - 1 } : item
+          );
+        }
+      });
+    }
   };
 
   const clearCart = () => {

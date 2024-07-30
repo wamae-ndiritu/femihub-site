@@ -7,6 +7,7 @@ import { useCart } from "../context/CartContext";
 const Navbar = () => {
   const {cartItems} = useCart();
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobileCartModalOpen, setIsMobileCartOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
 
   const navItems = [
@@ -184,11 +185,19 @@ const Navbar = () => {
                 <CiHeart className='h-6 w-6' color='#E4258F' />
               </button>
               <button
-                onClick={<Cart isOpen={true} setIsOpen={() => false} />}
-                className='ml-3 p-1 rounded-full text-[#184363] hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E4258F] focus:ring-white'
+                onClick={() => setIsMobileCartOpen(!isMobileCartModalOpen)}
+                className='ml-3 p-1 rounded-full text-[#184363] hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#E4258F] focus:ring-white relative'
               >
                 <CiShoppingCart className='h-6 w-6' color='#E4258F' />
+                {cartItems.length > 0 && (
+                  <span className='bg-red-500 h-4 w-4 rounded-full text-white flex justify-center items-center text-sm absolute top-[-7px] right-[-4px]'>
+                    {cartItems?.length}
+                  </span>
+                )}
               </button>
+              {isMobileCartModalOpen && (
+                <Cart isOpen={isMobileCartModalOpen} setIsOpen={setIsMobileCartOpen} />
+              )}{" "}
             </div>
           </div>
         </div>

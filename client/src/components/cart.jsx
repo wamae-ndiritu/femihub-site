@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 const Cart = ({ isOpen, setIsOpen }) => {
-    const { cartItems, removeItemFromCart } = useCart();
-    const [totals, setTotals] = useState(0);
-  
+  const { cartItems, removeItemFromCart, addItemToCart } = useCart();
+  const [totals, setTotals] = useState(0);
 
-    useEffect(() => {
-      if (cartItems.length > 0){
-        const total = cartItems.reduce(
-          (sum, item) => sum + item.price * item.qty,
-          0
-        );
-        setTotals(total);
-      }
-    }, [cartItems])
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      const total = cartItems.reduce(
+        (sum, item) => sum + item.price * item.qty,
+        0
+      );
+      setTotals(total);
+    }
+  }, [cartItems]);
 
   if (!isOpen) return null;
 
@@ -26,8 +27,8 @@ const Cart = ({ isOpen, setIsOpen }) => {
           className='absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity'
           onClick={() => setIsOpen(false)}
         ></div>
-        <section className='absolute inset-y-0 right-0 pl-10 max-w-full flex'>
-          <div className='w-screen md:max-w-md'>
+        <section className='absolute inset-y-0 right-0 max-w-full flex'>
+          <div className='w-screen sm:max-w-sm md:max-w-md'>
             <div className='h-full flex flex-col bg-white shadow-xl overflow-y-scroll'>
               <div className='flex-1 py-6 overflow-y-auto px-4 sm:px-6'>
                 <div className='flex items-start justify-between'>
@@ -65,20 +66,34 @@ const Cart = ({ isOpen, setIsOpen }) => {
                               />
                             </div>
                             <div className='ml-4 flex-1 flex flex-col'>
-                              <div>
-                                <div className='flex justify-between text-base font-medium text-gray-900'>
-                                  <h3>{item.name}</h3>
-                                  <p className='ml-4'>Ush {item.price}</p>
+                              <h3>{item.name}</h3>
+                              <div className='flex justify-between items-center my-2 text-base font-medium text-gray-900'>
+                                <div className='flex gap-4 items-center'>
+                                  <button
+                                    className='border border-gray-300 p-0.5 rounded'
+                                    onClick={() => removeItemFromCart(item.id)}
+                                  >
+                                    <RemoveIcon />
+                                  </button>
+                                  <h6>{item.qty}</h6>
+                                  <button
+                                    className='border border-gray-300 p-0.5 rounded'
+                                    onClick={() => addItemToCart(item)}
+                                  >
+                                    <AddIcon />
+                                  </button>
                                 </div>
+                                <p className='text-custom-pink'>
+                                  Ush {item.price}
+                                </p>
                               </div>
                               <div className='flex-1 flex items-end justify-between text-sm'>
-                                <p className='text-gray-500'>Qty {item.qty}</p>
                                 <div className='flex'>
                                   <button
                                     type='button'
                                     className='font-medium text-[#E4258F] hover:text-[#C01F7E]'
                                     onClick={() =>
-                                      removeItemFromCart(item.id)
+                                      removeItemFromCart(item.id, "all")
                                     }
                                   >
                                     Remove
