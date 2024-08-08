@@ -95,7 +95,12 @@ const db = mysql.createPool({
 //     throw err;
 //   }
 //   console.log("MySQL connected...");
+
 // });
+
+app.get('/home', (req, res) => {
+    res.send('Hello World!');
+  });
 
 // Google Authentication Routes
 app.get('/auth/google',
@@ -145,7 +150,6 @@ app.post('/login', (req, res) => {
         res.json({ token ,  user: { id: user.id, email: user.email, name: user.name} });
     });
 });
-
 
 app.post('/forgot-password', async (req, res) => {
     const { email } = req.body;
