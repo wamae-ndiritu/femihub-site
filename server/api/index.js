@@ -77,21 +77,24 @@ passport.deserializeUser((user, done) => {
 });
 
 // MySQL connection
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: DBHOST,
     user: DBUSER,
     password: PASSWORD,
     database: DATABASE,
     port: 3306,
+    waitForConnections: true,
+    connectionLimit: 100,
+    queueLimit: 0
   });
 
-db.connect((err) => {
-  if (err) {
-    console.log("Error connecting to MySQL: " + err);
-    throw err;
-  }
-  console.log("MySQL connected...");
-});
+// db.connect((err) => {
+//   if (err) {
+//     console.log("Error connecting to MySQL: " + err);
+//     throw err;
+//   }
+//   console.log("MySQL connected...");
+// });
 
 // Google Authentication Routes
 app.get('/auth/google',
