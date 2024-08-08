@@ -10,6 +10,7 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const paypal = require('@paypal/checkout-server-sdk');
 require('dotenv').config();
+const crypto = require('crypto');
 
 
 const DBHOST = process.env.DBHOST;
