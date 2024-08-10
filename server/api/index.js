@@ -328,7 +328,7 @@ app.delete('/articles/:id', (req, res) => {
 });
 
 // Products endpoints (CRUD)
-app.get('/best-selling', (req, res) => {
+app.get('/new-products', (req, res) => {
     // const { name, price, description } = req.body;
     const query = 'SELECT * FROM products ORDER BY created_at DESC LIMIT 20;';
     db.query(query, (err, result) => {
