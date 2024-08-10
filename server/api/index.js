@@ -328,6 +328,16 @@ app.delete('/articles/:id', (req, res) => {
 });
 
 // Products endpoints (CRUD)
+app.get('/best-selling', (req, res) => {
+    // const { name, price, description } = req.body;
+    const query = 'SELECT * FROM products ORDER BY created_at DESC LIMIT 20;';
+    db.query(query, (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ message: 'best selling products', products: result });
+    });
+});
+
+// Products endpoints (CRUD)
 app.post('/products', (req, res) => {
     const { name, price, description } = req.body;
     const query = 'INSERT INTO products (name, price, description) VALUES (?, ?, ?)';
