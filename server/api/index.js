@@ -350,7 +350,7 @@ app.post('/products', (req, res) => {
 app.get("/products", (req, res) => {
   const { search, category } = req.query;
 
-  let query = "SELECT * FROM products";
+  let query = "SELECT * FROM `products` WHERE `created_at` <> '2024-08-14 11:34:21'";
   let queryParams = [];
 
   if (search || category) {
