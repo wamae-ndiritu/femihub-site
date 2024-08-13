@@ -876,6 +876,184 @@ app.get('/shop/category/:categoryId', (req, res) => {
     });
 });
 
+
+// Create or update a rating
+app.post('/ratings', (req, res) => {
+    const { product_id, user_id, rating } = req.body;
+
+    // Check if a rating already exists for this user and product
+    const checkQuery = 'SELECT * FROM ratings WHERE product_id = ? AND user_id = ?';
+    db.query(checkQuery, [product_id, user_id], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+
+        if (results.length > 0) {
+            // Update existing rating
+            const updateQuery = 'UPDATE ratings SET rating = ? WHERE product_id = ? AND user_id = ?';
+            db.query(updateQuery, [rating, product_id, user_id], (err, result) => {
+                if (err) return res.status(500).json({ error: err.message });
+                res.json({ message: 'Rating updated successfully' });
+            });
+        } else {
+            // Create new rating
+            const insertQuery = 'INSERT INTO ratings (product_id, user_id, rating) VALUES (?, ?, ?)';
+            db.query(insertQuery, [product_id, user_id, rating], (err, result) => {
+                if (err) return res.status(500).json({ error: err.message });
+                res.status(201).json({ message: 'Rating added successfully' });
+            });
+        }
+    });
+});
+
+// Get all ratings for a specific product
+app.get('/ratings', (req, res) => {
+    const { product_id } = req.body;
+    const query = 'SELECT * FROM ratings WHERE product_id = ?';
+    db.query(query, [product_id], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
+});
+
+// Delete all ratings by a specific user
+app.delete('/ratings', (req, res) => {
+    const { user_id } = req.body;
+    const query = 'DELETE FROM ratings WHERE user_id = ?';
+    db.query(query, [user_id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ error: 'No ratings found for this user' });
+        res.json({ message: 'Ratings deleted successfully' });
+    });
+});
+
+// Delete a rating by user_id and product_id
+app.delete('/ratings', (req, res) => {
+    const { user_id, product_id } = req.body;
+    const query = 'DELETE FROM ratings WHERE user_id = ? AND product_id = ?';
+    db.query(query, [user_id, product_id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ error: 'No rating found for this user and product' });
+        res.json({ message: 'Rating deleted successfully' });
+    });
+});
+
+
+// Create or update settings for a user
+app.post('/settings', (req, res) => {
+    const {
+        user_id,
+        period_reminders,
+        fertility_reminders,
+        ovulation_reminders,
+        remind_medicine,
+        track_contraception,
+        reminder,
+        click_method,
+        selected_method,
+        meditation_reminder,
+        daily_logging_reminders,
+        tracking_reminder,
+        is_secret,
+        pin,
+        use_bio,
+        show_pin_page,
+        intercourse_log,
+        ovulation_fertility_info,
+        pill_tracking,
+        backup_data
+    } = req.body;
+
+    const query = `
+        INSERT INTO settings (
+            user_id, period_reminders, fertility_reminders, ovulation_reminders, remind_medicine, 
+            track_contraception, reminder, click_method, selected_method, meditation_reminder, 
+            daily_logging_reminders, tracking_reminder, is_secret, pin, use_bio, show_pin_page, 
+            intercourse_log, ovulation_fertility_info, pill_tracking, backup_data
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+            period_reminders = VALUES(period_reminders),
+            fertility_reminders = VALUES(fertility_reminders),
+            ovulation_reminders = VALUES(ovulation_reminders),
+            remind_medicine = VALUES(remind_medicine),
+            track_contraception = VALUES(track_contraception),
+            reminder = VALUES(reminder),
+            click_method = VALUES(click_method),
+            selected_method = VALUES(selected_method),
+            meditation_reminder = VALUES(meditation_reminder),
+            daily_logging_reminders = VALUES(daily_logging_reminders),
+            tracking_reminder = VALUES(tracking_reminder),
+            is_secret = VALUES(is_secret),
+            pin = VALUES(pin),
+            use_bio = VALUES(use_bio),
+            show_pin_page = VALUES(show_pin_page),
+            intercourse_log = VALUES(intercourse_log),
+            ovulation_fertility_info = VALUES(ovulation_fertility_info),
+            pill_tracking = VALUES(pill_tracking),
+            backup_data = VALUES(backup_data)
+    `;
+
+    db.query(query, [
+        user_id, period_reminders, fertility_reminders, ovulation_reminders, remind_medicine, 
+        track_contraception, reminder, click_method, selected_method, meditation_reminder, 
+        daily_logging_reminders, tracking_reminder, is_secret, pin, use_bio, show_pin_page, 
+        intercourse_log, ovulation_fertility_info, pill_tracking, backup_data
+    ], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ message: 'Settings saved successfully' });
+    });
+});
+
+app.get('/settings', (req, res) => {
+    const { user_id } = req.body;
+    const query = 'SELECT * FROM settings WHERE user_id = ?';
+    db.query(query, [user_id], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (results.length === 0) return res.status(404).json({ error: 'Settings not found' });
+        res.json(results[0]);
+    });
+});
+
+// Delete settings by user ID
+app.delete('/settings', (req, res) => {
+    const { user_id } = req.body;
+    const query = 'DELETE FROM settings WHERE user_id = ?';
+    db.query(query, [user_id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ error: 'Settings not found' });
+        res.json({ message: 'Settings deleted successfully' });
+    });
+});
+
+// Create a new reply
+app.post('/replies', (req, res) => {
+    const { post_id, user_id, content } = req.body;
+    const query = 'INSERT INTO replies (post_id, user_id, content) VALUES (?, ?, ?)';
+    db.query(query, [post_id, user_id, content], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ message: 'Reply created successfully', replyId: result.insertId });
+    });
+});
+
+// Get all replies for a specific post
+app.get('/replies', (req, res) => {
+    const { post_id } = req.body;
+    const query = 'SELECT * FROM replies WHERE post_id = ?';
+    db.query(query, [post_id], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
+});
+
+// Delete a reply by its ID
+app.delete('/replies', (req, res) => {
+    const { id } = req.params;
+    const query = 'DELETE FROM replies WHERE id = ?';
+    db.query(query, [id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ error: 'Reply not found' });
+        res.json({ message: 'Reply deleted successfully' });
+    });
+});
+
 // Reminder endpoints (to be added later)
 
 const PORT = 3030;
