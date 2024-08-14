@@ -1054,6 +1054,23 @@ app.delete('/replies', (req, res) => {
     });
 });
 
+app.get('/list_users', (req, res) => {
+    const email = req.query.email;
+    let query
+    if (email) {
+        query = `SELECT id, name FROM users WHERE email = ?`;
+        db.query(query, [email], (err, results) => {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json(results);
+        });
+    } else {
+        query = 'SELECT id, name FROM users';
+        db.query(query, (err, results) => {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json(results);
+        });
+    }
+});
 // Reminder endpoints (to be added later)
 
 const PORT = 3030;
