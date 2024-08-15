@@ -1035,7 +1035,8 @@ app.post('/replies', (req, res) => {
 
 // Get all replies for a specific post
 app.get('/replies', (req, res) => {
-    const { post_id } = req.body;
+    // const { post_id } = req.body;
+    const { post_id } = req.query;
     const query = 'SELECT * FROM replies WHERE post_id = ?';
     db.query(query, [post_id], (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
