@@ -1072,6 +1072,31 @@ app.get('/list_users', (req, res) => {
         });
     }
 });
+
+app.get('/mobile/', (req, res) => {
+    const query = 'SELECT * FROM mob_products'
+    db.query(query, (err, results) => {
+        if (err){
+            return res.status(500).json({error: err.message});
+        }
+        res.json(results)
+    })
+    
+})
+
+app.get('/mobile/:cat', (req, res) =>{
+    const { cat } = req.params;
+    const query = 'SELECT * FROM `mob_products` WHERE `category_id` = ?';
+
+    db.query(query, [cat], (err, results) =>{
+        if (err) {
+            return res.status(200).json({error: err.message});
+    }else{
+        res.status(200).json(results)
+    }
+})
+})
+
 // Reminder endpoints (to be added later)
 
 const PORT = 3030;
