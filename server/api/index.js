@@ -339,10 +339,10 @@ app.get('/new-products', (req, res) => {
 
 // Products endpoints (CRUD)
 app.post('/products', (req, res) => {
-    // const { name, price, description } = req.body;
-    // const query = 'INSERT INTO products (name, price, description) VALUES (?, ?, ?)';
-    // db.query(query, [name, price, description], (err, result) => {
-    //     if (err) return res.status(500).json({ error: err.message });
+    const { name, price, description } = req.body;
+    const query = 'INSERT INTO products (name, price, description) VALUES (?, ?, ?)';
+    db.query(query, [name, price, description], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
         res.status(201).json({ message: 'Pay your developers' });
     });
 });
@@ -418,9 +418,9 @@ app.post('/subscriptions', (req, res) => {
 });
 
 app.get('/subscriptions', (req, res) => {
-    // const query = 'SELECT * FROM subscriptions';
-    // db.query(query, (err, results) => {
-    //     if (err) return res.status(500).json({ error: err.message });
+    const query = 'SELECT * FROM subscriptions';
+    db.query(query, (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
         res.json('Pay your developers');
     });
 });
