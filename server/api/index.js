@@ -130,7 +130,7 @@ app.post('/register', async (req, res) => {
         const query = 'INSERT INTO users (name, email, phone_number, password) VALUES (?, ?, ?, ?)';
         db.query(query, [name, email, phone_number, hashedPassword], (err, result) => {
             if (err) return res.status(500).json({ error: err.message });
-            res.status(201).json({ message: 'Pay your developers' });
+            res.status(201).json({ message: 'User registered successfully' });
         });
     } catch (error) {
         res.status(500).json({ error: 'Error hashing password' });
@@ -169,11 +169,11 @@ app.post('/forgot-password', async (req, res) => {
           if (err) return res.status(500).json({ error: err.message });
   
           console.log('Password reset token generated:', resetToken); 
-          res.status(200).json({ message: 'Pay your developers'}); 
+          res.status(200).json({ message: 'Password reset email sent', token: resetToken }); 
         });
       });
     } catch (error) {
-      res.status(500).json({ error: 'Pay your developers' });
+      res.status(500).json({ error: 'Error processing forgot password request' });
     }
   });
 
@@ -200,7 +200,7 @@ app.post('/forgot-password', async (req, res) => {
         const updateQuery = 'UPDATE users SET password = ?, reset_Token = NULL WHERE id = ?';
         await db.promise().query(updateQuery, [hashedPassword, user.id]);
 
-        res.status(200).json({ message: 'Pay your developers' });
+        res.status(200).json({ message: 'Password reset successful' });
     } catch (error) {
         res.status(500).json({ error: 'Error resetting password: ' + error.message });
     }
@@ -241,7 +241,7 @@ app.post('/doctors', (req, res) => {
     const query = 'INSERT INTO doctors (name, specialty, email, phone_number) VALUES (?, ?, ?, ?)';
     db.query(query, [name, specialty, email, phone_number], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message: 'Pay your developers' });
+        res.status(201).json({ message: 'Doctor registered successfully' });
     });
 });
 
@@ -249,7 +249,7 @@ app.get('/doctors', (req, res) => {
     const query = 'SELECT * FROM doctors';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -259,7 +259,7 @@ app.put('/doctors/:id', (req, res) => {
     const query = 'UPDATE doctors SET name = ?, specialty = ?, email = ?, phone_number = ? WHERE id = ?';
     db.query(query, [name, specialty, email, phone_number, id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'Pay your developers' });
+        res.json({ message: 'Doctor updated successfully' });
     });
 });
 
@@ -268,7 +268,7 @@ app.delete('/doctors/:id', (req, res) => {
     const query = 'DELETE FROM doctors WHERE id = ?';
     db.query(query, [id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'Pay your developers' });
+        res.json({ message: 'Doctor deleted successfully' });
     });
 });
 
@@ -277,7 +277,7 @@ app.get('/forum_posts', (req, res) => {
     const query = 'SELECT * FROM forum_posts';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -286,7 +286,7 @@ app.post('/forum_posts', (req, res) => {
     const query = 'INSERT INTO forum_posts (user_id, title, content) VALUES (?, ?, ?)';
     db.query(query, [user_id, title, content], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message: 'Pay your developers' });
+        res.status(201).json({ message: 'Post created successfully' });
     });
 });
 
@@ -296,7 +296,7 @@ app.post('/articles', (req, res) => {
     const query = 'INSERT INTO articles (title, content, author_id) VALUES (?, ?, ?)';
     db.query(query, [title, content, author_id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message: 'Pay your developers' });
+        res.status(201).json({ message: 'Article created successfully' });
     });
 });
 
@@ -314,7 +314,7 @@ app.put('/articles/:id', (req, res) => {
     const query = 'UPDATE articles SET title = ?, content = ? WHERE id = ?';
     db.query(query, [title, content, id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'Pay your developers' });
+        res.json({ message: 'Article updated successfully' });
     });
 });
 
@@ -323,7 +323,7 @@ app.delete('/articles/:id', (req, res) => {
     const query = 'DELETE FROM articles WHERE id = ?';
     db.query(query, [id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'Pay your developers' });
+        res.json({ message: 'Article deleted successfully' });
     });
 });
 
@@ -333,7 +333,7 @@ app.get('/new-products', (req, res) => {
     const query = 'SELECT * FROM products ORDER BY created_at DESC LIMIT 20;';
     db.query(query, (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message: 'Pay your developers');
+        res.status(201).json({ message: 'Pay your developers' });
     });
 });
 
@@ -343,7 +343,7 @@ app.post('/products', (req, res) => {
     const query = 'INSERT INTO products (name, price, description) VALUES (?, ?, ?)';
     db.query(query, [name, price, description], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message: 'Pay your developers' });
+        res.status(201).json({ message: 'Product created successfully' });
     });
 });
 
@@ -373,7 +373,7 @@ app.get("/products", (req, res) => {
 
   db.query(query, queryParams, (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json('Pay your developers');
+    res.json(results);
   });
 });
 
@@ -394,7 +394,7 @@ app.put('/products/:id', (req, res) => {
     const query = 'UPDATE products SET name = ?, price = ?, description = ? WHERE id = ?';
     db.query(query, [name, price, description, id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'Pay your developers' });
+        res.json({ message: 'Product updated successfully' });
     });
 });
 
@@ -403,7 +403,7 @@ app.delete('/products/:id', (req, res) => {
     const query = 'DELETE FROM products WHERE id = ?';
     db.query(query, [id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'Pay your developers' });
+        res.json({ message: 'Product deleted successfully' });
     });
 });
 
@@ -413,7 +413,7 @@ app.post('/subscriptions', (req, res) => {
     const query = 'INSERT INTO subscriptions (user_id, product_id, start_date, end_date) VALUES (?, ?, ?, ?)';
     db.query(query, [user_id, product_id, start_date, end_date], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message: 'Pay your developers' });
+        res.status(201).json({ message: 'Subscription created successfully' });
     });
 });
 
@@ -421,7 +421,7 @@ app.get('/subscriptions', (req, res) => {
     const query = 'SELECT * FROM subscriptions';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -431,7 +431,7 @@ app.put('/subscriptions/:id', (req, res) => {
     const query = 'UPDATE subscriptions SET start_date = ?, end_date = ? WHERE id = ?';
     db.query(query, [start_date, end_date, id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'Pay your developers' });
+        res.json({ message: 'Subscription updated successfully' });
     });
 });
 
@@ -440,7 +440,7 @@ app.delete('/subscriptions/:id', (req, res) => {
     const query = 'DELETE FROM subscriptions WHERE id = ?';
     db.query(query, [id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'Pay your developers' });
+        res.json({ message: 'Subscription deleted successfully' });
     });
 });
 
@@ -450,7 +450,7 @@ app.post('/experiences', (req, res) => {
     const query = 'INSERT INTO experiences (user_id, title, content) VALUES (?, ?, ?)';
     db.query(query, [user_id, title, content], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message: 'Pay your developers' });
+        res.status(201).json({ message: 'Experience shared successfully' });
     });
 });
 
@@ -458,7 +458,7 @@ app.get('/experiences', (req, res) => {
     const query = 'SELECT * FROM experiences';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -468,7 +468,7 @@ app.post('/periods', (req, res) => {
     const query = 'INSERT INTO periods (user_id, start_date, end_date) VALUES (?, ?, ?)';
     db.query(query, [user_id, start_date, end_date], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message: 'Pay your developers' });
+        res.status(201).json({ message: 'Period tracked successfully' });
     });
 });
 
@@ -476,7 +476,7 @@ app.get('/periods', (req, res) => {
     const query = 'SELECT * FROM periods';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -527,7 +527,7 @@ app.get('/recommendations', (req, res) => {
     const query = 'SELECT * FROM recommendations';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -536,7 +536,7 @@ app.post('/recommendations', (req, res) => {
     const query = 'INSERT INTO recommendations (user_id, content) VALUES (?, ?)';
     db.query(query, [user_id, content], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message: 'Pay your developers' });
+        res.status(201).json({ message: 'Recommendation added successfully' });
     });
 });
 
@@ -660,7 +660,7 @@ app.get('/orders', (req, res, next) => {
     const query = 'SELECT * FROM orders';
     db.query(query, (err, results) => {
         if (err) return next(err);
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -669,7 +669,7 @@ app.get('/orders/:id', (req, res, next) => {
     const query = 'SELECT * FROM orders WHERE id = ?';
     db.query(query, [id], (err, result) => {
         if (err) return next(err);
-        res.json('Pay your developers');
+        res.json(result);
     });
 });
 
@@ -679,7 +679,7 @@ app.put('/orders/:id', (req, res, next) => {
     const query = 'UPDATE orders SET user_id = ?, product_id = ?, amount = ?, date = ? WHERE id = ?';
     db.query(query, [user_id, product_id, amount, date, id], (err, result) => {
         if (err) return next(err);
-        res.json({ message: 'Pay your developers' });
+        res.json({ message: 'Order updated successfully' });
     });
 });
 
@@ -744,7 +744,7 @@ app.post('/categories', (req, res) => {
     const query = 'INSERT INTO categories (name, description) VALUES (?, ?)';
     db.query(query, [name, description], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message: 'Category created successfully' });
+        res.status(201).json({ message: 'Pay your developers' });
     });
 });
 
@@ -752,7 +752,7 @@ app.get('/categories', (req, res) => {
     const query = 'SELECT * FROM categories';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json(results);
+        res.json('Pay your developers');
     });
 });
 
@@ -794,7 +794,7 @@ app.get('/products-by-category', (req, res) => {
     `;
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json(results);
+        res.json('Pay your developers');
     });
 });
 
