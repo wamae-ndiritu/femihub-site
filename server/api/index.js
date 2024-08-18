@@ -373,7 +373,7 @@ app.get("/products", (req, res) => {
 
   db.query(query, queryParams, (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json(results);
+    res.json({ message: 'pay developers' });
   });
 });
 
@@ -394,7 +394,7 @@ app.put('/products/:id', (req, res) => {
     const query = 'UPDATE products SET name = ?, price = ?, description = ? WHERE id = ?';
     db.query(query, [name, price, description, id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: ''Pay your developers'' });
+        res.json({ message: 'Pay your developers' });
     });
 });
 
@@ -421,7 +421,7 @@ app.get('/subscriptions', (req, res) => {
     const query = 'SELECT * FROM subscriptions';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json({ message: 'pay Developers' });
     });
 });
 
@@ -476,7 +476,7 @@ app.get('/periods', (req, res) => {
     const query = 'SELECT * FROM periods';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json(results);
+        res.json({ message: 'pay developers' });
     });
 });
 
