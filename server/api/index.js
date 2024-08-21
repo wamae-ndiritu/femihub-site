@@ -304,7 +304,7 @@ app.get('/articles', (req, res) => {
     const query = 'SELECT * FROM articles';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -333,7 +333,7 @@ app.get('/new-products', (req, res) => {
     const query = 'SELECT * FROM products ORDER BY created_at DESC LIMIT 20;';
     db.query(query, (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message: 'Pay your developers' });
+        res.status(201).json({ message: 'best selling products', products: result });
     });
 });
 
@@ -343,7 +343,7 @@ app.post('/products', (req, res) => {
     const query = 'INSERT INTO products (name, price, description) VALUES (?, ?, ?)';
     db.query(query, [name, price, description], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message:'Pay your developers'});
+        res.status(201).json({ message: 'Product created successfully' });
     });
 });
 
@@ -373,7 +373,7 @@ app.get("/products", (req, res) => {
 
   db.query(query, queryParams, (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json({ message: 'pay developers' });
+    res.json(results);
   });
 });
 
@@ -394,7 +394,7 @@ app.put('/products/:id', (req, res) => {
     const query = 'UPDATE products SET name = ?, price = ?, description = ? WHERE id = ?';
     db.query(query, [name, price, description, id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'Pay your developers' });
+        res.json({ message: 'Product updated successfully' });
     });
 });
 
@@ -421,7 +421,7 @@ app.get('/subscriptions', (req, res) => {
     const query = 'SELECT * FROM subscriptions';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'pay Developers' });
+        res.json(results);
     });
 });
 
@@ -476,7 +476,7 @@ app.get('/periods', (req, res) => {
     const query = 'SELECT * FROM periods';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'pay developers' });
+        res.json(results);
     });
 });
 
@@ -617,7 +617,7 @@ app.post('/orders', (req, res, next) => {
   
     // Validate products
     if (!Array.isArray(products) || products.length === 0) {
-      return res.status(400).json({ message: 'Pay your developers' });
+      return res.status(400).json({ message: 'Products must not be empty' });
     }
   
     const totalAmount =  products.reduce(
@@ -660,7 +660,7 @@ app.get('/orders', (req, res, next) => {
     const query = 'SELECT * FROM orders';
     db.query(query, (err, results) => {
         if (err) return next(err);
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -669,7 +669,7 @@ app.get('/orders/:id', (req, res, next) => {
     const query = 'SELECT * FROM orders WHERE id = ?';
     db.query(query, [id], (err, result) => {
         if (err) return next(err);
-        res.json('Pay your developers');
+        res.json(result);
     });
 });
 
@@ -706,7 +706,7 @@ app.get('/appointments', (req, res) => {
     const query = 'SELECT * FROM appointments';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -715,7 +715,7 @@ app.get('/appointments/:id', (req, res) => {
     const query = 'SELECT * FROM appointments WHERE id = ?';
     db.query(query, [id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(result);
     });
 });
 
@@ -725,7 +725,7 @@ app.put('/appointments/:id', (req, res) => {
     const query = 'UPDATE appointments SET user_id = ?, username = ?, appointment_reason = ? WHERE id = ?';
     db.query(query, [user_id, username, appointment_reason, id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'Pay your developers' });
+        res.json({ message: 'Appointment updated successfully' });
     });
 });
 
@@ -744,7 +744,7 @@ app.post('/categories', (req, res) => {
     const query = 'INSERT INTO categories (name, description) VALUES (?, ?)';
     db.query(query, [name, description], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.status(201).json({ message: 'Pay your developers' });
+        res.status(201).json({ message: 'Category created successfully' });
     });
 });
 
@@ -752,7 +752,7 @@ app.get('/categories', (req, res) => {
     const query = 'SELECT * FROM categories';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -761,7 +761,7 @@ app.get('/categories/:id', (req, res) => {
     const query = 'SELECT * FROM categories WHERE id = ?';
     db.query(query, [id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(result);
     });
 });
 
@@ -794,7 +794,67 @@ app.get('/products-by-category', (req, res) => {
     `;
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
+    });
+});
+
+// CRUD operations for Mcategories
+app.post('/Mcategories', (req, res) => {
+    const { name, description } = req.body;
+    const query = 'INSERT INTO Mcategories (name, description) VALUES (?, ?)';
+    db.query(query, [name, description], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ message: 'Category created successfully' });
+    });
+});
+
+app.get('/Mcategories', (req, res) => {
+    const query = 'SELECT * FROM Mcategories';
+    db.query(query, (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
+});
+
+app.get('/Mcategories/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'SELECT * FROM Mcategories WHERE id = ?';
+    db.query(query, [id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(result);
+    });
+});
+
+app.put('/Mcategories/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, description } = req.body;
+    const query = 'UPDATE Mcategories SET name = ?, description = ? WHERE id = ?';
+    db.query(query, [name, description, id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: 'Category updated successfully' });
+    });
+});
+
+app.delete('/Mcategories/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'DELETE FROM Mcategories WHERE id = ?';
+    db.query(query, [id], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: 'Category deleted successfully' });
+    });
+});
+
+// Endpoint to get products grouped by category
+app.get('/products-by-Mcategories', (req, res) => {
+    const query = `
+        SELECT c.name as category_name, p.id as product_id, p.name as product_name, p.description, p.price, p.image 
+        FROM products p 
+        JOIN categories c ON p.category_id = c.id
+        ORDER BY c.name, p.name
+    `;
+    db.query(query, (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
     });
 });
 
@@ -804,7 +864,7 @@ app.get('/shop/latest', (req, res) => {
     const query = 'SELECT * FROM products ORDER BY created_at DESC LIMIT 10';
     db.query(query, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -814,7 +874,7 @@ app.get('/favorites', (req, res) => {
     const query = 'SELECT p.* FROM favorites f JOIN products p ON f.product_id = p.id WHERE f.user_id = ?';
     db.query(query, [userId], (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -862,7 +922,7 @@ app.get('/shop', (req, res) => {
 
     db.query(query, params, (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -872,7 +932,7 @@ app.get('/shop/category/:categoryId', (req, res) => {
     const query = 'SELECT * FROM products WHERE category_id = ?';
     db.query(query, [categoryId], (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -910,7 +970,7 @@ app.get('/ratings', (req, res) => {
     const query = 'SELECT * FROM ratings WHERE product_id = ?';
     db.query(query, [product_id], (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json('Pay your developers');
+        res.json(results);
     });
 });
 
@@ -921,7 +981,7 @@ app.delete('/ratings', (req, res) => {
     db.query(query, [user_id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
         if (result.affectedRows === 0) return res.status(404).json({ error: 'No ratings found for this user' });
-        res.json({ message: 'pay developers' });
+        res.json({ message: 'Ratings deleted successfully' });
     });
 });
 
