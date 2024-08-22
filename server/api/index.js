@@ -869,10 +869,41 @@ app.get('/shop/latest', (req, res) => {
 });
 
 // Get favorite products
+// app.get('/favorites', (req, res) => {
+//     const { userId } = req.query;
+//     const query = 'SELECT p.* FROM favorites f JOIN products p ON f.product_id = p.id WHERE f.user_id = ?';
+//     db.query(query, [userId], (err, results) => {
+//         if (err) return res.status(500).json({ error: err.message });
+//         res.json(results);
+//     });
+// });
+
+app.post('/favorites', (req, res) => {
+    const { user_id, product_id } = req.body;
+    const query = "INSERT INTO favorites (user_id, product_id) VALUES (?, ?)";
+
+    db.query(query, [user_id, product_id], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ message: 'Favorite saved successfully' });
+    });
+});
+
+app.delete('/favorites', (req, res) => {
+    const { user_id, product_id } = req.body;
+    const query = "DELETE FROM favorites WHERE user_id = ? AND product_id = ?";
+
+    db.query(query, [user_id, product_id], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(200).json({ message: 'Favorite deleted successfully' });
+    });
+})
+
+// Get favorite products
 app.get('/favorites', (req, res) => {
-    const { userId } = req.query;
-    const query = 'SELECT p.* FROM favorites f JOIN products p ON f.product_id = p.id WHERE f.user_id = ?';
-    db.query(query, [userId], (err, results) => {
+    const { user_id } = req.query;
+
+    const query = 'SELECT * FROM favorites WHERE user_id = ?';
+    db.query(query, [user_id], (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json(results);
     });
@@ -938,6 +969,7 @@ app.get('/shop/category/:categoryId', (req, res) => {
 
 
 // Create or update a rating
+// Create or update a rating
 app.post('/ratings', (req, res) => {
     const { product_id, user_id, rating } = req.body;
 
@@ -966,7 +998,7 @@ app.post('/ratings', (req, res) => {
 
 // Get all ratings for a specific product
 app.get('/ratings', (req, res) => {
-    const { product_id } = req.body;
+    const { product_id } = req.query;
     const query = 'SELECT * FROM ratings WHERE product_id = ?';
     db.query(query, [product_id], (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -976,7 +1008,7 @@ app.get('/ratings', (req, res) => {
 
 // Delete all ratings by a specific user
 app.delete('/ratings', (req, res) => {
-    const { user_id } = req.body;
+    const { user_id } = req.query;
     const query = 'DELETE FROM ratings WHERE user_id = ?';
     db.query(query, [user_id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -987,7 +1019,7 @@ app.delete('/ratings', (req, res) => {
 
 // Delete a rating by user_id and product_id
 app.delete('/ratings', (req, res) => {
-    const { user_id, product_id } = req.body;
+    const { user_id, product_id } = req.query;
     const query = 'DELETE FROM ratings WHERE user_id = ? AND product_id = ?';
     db.query(query, [user_id, product_id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
@@ -995,6 +1027,7 @@ app.delete('/ratings', (req, res) => {
         res.json({ message: 'Rating deleted successfully' });
     });
 });
+
 
 
 // Create or update settings for a user
